@@ -35,4 +35,3 @@ An aesthetic, premium portfolio website built with React, Vite, and Framer Motio
 - Replace `src/assets/profile.png` with your own photo.
 - Modify colors in `src/index.css` variables.
 
-Built for Tussh Harshibukumar Harini.
