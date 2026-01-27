@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 
 const experiences = [
     {
-        role: 'USG Technology',
+        role: 'USG Technology and Chairperson (ECOSOC)',
         organization: "Politicon '25",
         date: '2025',
-        description: 'Led digital systems and deployed official website for large-scale MUN.'
+        description: 'Led digital systems, deployed official website and Moderated ECOSOC committee for large-scale MUN.'
     },
     {
         role: 'Founder',
