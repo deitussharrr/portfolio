@@ -182,7 +182,68 @@ function App() {
             </div>
           </div>
         );
+      case 'education':
+        const eduData = [
+          {
+            type: "Schooling",
+            institution: "Sanskriti School, Chennai",
+            period: "2010 - 2024",
+            major: "Science & Mathematics",
+            achievements: ["95% in Board Exams", "Head of Tech Society", "Best Student Citation '23"],
+            color: "purple"
+          },
+          {
+            type: "Specialization",
+            institution: "Online Platforms (Coursera/DeepLearning.AI)",
+            period: "2023 - Present",
+            major: "AI & Machine Learning Specialization",
+            achievements: ["Supervised Machine Learning", "Neural Networks & Deep Learning", "Natural Language Processing"],
+            color: "blue-dark"
+          }
+        ];
+
+        return (
+          <div className="space-y-12 pb-20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+              {eduData.map((edu, idx) => (
+                <div key={idx} className={`bg-white/5 p-10 rounded-[40px] border-b-8 border-metro-${edu.color} hover:bg-white/10 transition-all`}>
+                  <div className="flex justify-between items-start mb-6">
+                    <div>
+                      <span className={`px-3 py-1 bg-metro-${edu.color} text-[10px] uppercase font-bold text-white rounded-sm mb-4 inline-block`}>
+                        {edu.type}
+                      </span>
+                      <h3 className="text-3xl font-light">{edu.institution}</h3>
+                    </div>
+                    <FiAward className={`text-4xl text-metro-${edu.color} opacity-40`} />
+                  </div>
+                  <div className="text-sm opacity-50 font-mono mb-6">{edu.period}</div>
+                  <p className="text-xl font-bold mb-6 opacity-90">{edu.major}</p>
+
+                  <div className="bg-black/20 p-6 rounded-2xl">
+                    <h4 className="text-xs uppercase font-bold opacity-40 mb-4 tracking-widest">Key Milestones</h4>
+                    <ul className="space-y-3">
+                      {edu.achievements.map((a, i) => (
+                        <li key={i} className="flex items-center gap-3">
+                          <span className={`w-2 h-2 rounded-full bg-metro-${edu.color}`} />
+                          <span className="text-sm opacity-80">{a}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="bg-white/5 p-12 rounded-[50px] border border-white/10">
+              <h3 className="text-2xl font-light mb-8 text-center">Academic Philosophy</h3>
+              <p className="max-w-4xl mx-auto text-center text-xl opacity-70 leading-relaxed italic">
+                "I view education as a recursive process of building, breaking, and improving. Beyond the classroom, I've dedicated over 2000 hours to self-directed learning in AI Architecture and modern engineering practices."
+              </p>
+            </div>
+          </div>
+        );
       case 'experience':
+
         const experienceData = [
           {
             role: "USG Tech & Digital Infrastructure Lead",
@@ -356,7 +417,7 @@ function App() {
             }
           />
           <div className="flex gap-2">
-            <Tile size="small" color="purple" label="Education" icon={<FiAward />} onClick={() => setActiveApp({ id: 'experience', title: 'Experience & Education', color: 'purple' })} />
+            <Tile size="small" color="purple" label="Education" icon={<FiAward />} onClick={() => setActiveApp({ id: 'education', title: 'Academic History', color: 'purple' })} />
             <Tile size="small" color="orange" label="Skills" icon={<FiCode />} onClick={() => setActiveApp({ id: 'skills', title: 'Technical Arsenal', color: 'orange' })} />
           </div>
         </motion.div>
