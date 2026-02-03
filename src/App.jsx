@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  FiMail, FiLinkedin, FiGithub, FiUser, FiCode,
-  FiAward, FiFolder, FiTrash2, FiMonitor, FiInfo
+  FiLinkedin, FiGithub, FiUser, FiCode,
+  FiAward, FiFolder, FiTrash2, FiMonitor
 } from 'react-icons/fi';
 import DesktopIcon from './components/DesktopIcon';
 import Sidebar from './components/Sidebar';
@@ -111,6 +111,42 @@ function App() {
                 <p className="text-xl text-blue-400">{exp.org}</p>
                 <p className="opacity-60 font-mono text-sm">{exp.period}</p>
                 <p className="mt-4 opacity-80">{exp.desc}</p>
+              </div>
+            ))}
+          </div>
+        );
+      case 'skills':
+        return (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-10">
+            <section className="bg-white/5 p-10 rounded-2xl border border-white/10">
+              <h3 className="text-2xl font-bold mb-6">Technologies</h3>
+              <div className="flex flex-wrap gap-4">
+                {["React", "Python", "Node.js", "AI/NLP", "Next.js", "Vite"].map(s => (
+                  <span key={s} className="px-4 py-2 bg-white/10 rounded-lg border border-white/5">{s}</span>
+                ))}
+              </div>
+            </section>
+            <section className="bg-white/5 p-10 rounded-2xl border border-white/10">
+              <h3 className="text-2xl font-bold mb-6">Expertise</h3>
+              <ul className="space-y-4 opacity-80">
+                <li>• Generative AI & LLM Pipelines</li>
+                <li>• Interactive UX Architecture</li>
+                <li>• Scalable Backend Infrastructure</li>
+              </ul>
+            </section>
+          </div>
+        );
+      case 'education':
+        return (
+          <div className="space-y-8 p-10">
+            {[
+              { inst: "Sanskriti School, Chennai", major: "Science & Mathematics", period: "2010 - 2024" },
+              { inst: "DeepLearning.AI", major: "AI Specialization", period: "2023 - Present" }
+            ].map((edu, idx) => (
+              <div key={idx} className="bg-white/5 p-8 rounded-xl border border-white/10">
+                <h3 className="text-2xl font-bold">{edu.inst}</h3>
+                <p className="text-xl text-purple-400">{edu.major}</p>
+                <p className="opacity-60 text-sm">{edu.period}</p>
               </div>
             ))}
           </div>

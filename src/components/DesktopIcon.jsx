@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const DesktopIcon = ({ icon, label, onClick, isSelected }) => {
+const DesktopIcon = ({ icon, label, onClick, isSelected, id, title }) => {
     return (
         <motion.div
             className={`desktop-icon ${isSelected ? 'selected' : ''}`}
