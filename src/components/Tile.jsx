@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
 
-const Tile = ({ size = 'medium', color = 'blue', label, children, icon, link, isLive = false, secondaryContent, interval = 5000 }) => {
+const Tile = ({ size = 'medium', color = 'blue', label, children, icon, link, isLive = false, secondaryContent, interval = 5000, onClick }) => {
   const sizeClass = `tile-${size}`;
   const colorClass = `bg-metro-${color}`;
 
@@ -43,24 +43,26 @@ const Tile = ({ size = 'medium', color = 'blue', label, children, icon, link, is
     y.set(0);
   };
 
-  const renderContent = (content, z) => (
-    <div className="tile-content" style={{ transform: `translateZ(${z}px)` }}>
-      {content}
-    </div>
-  );
+  const handleClick = (e) => {
+    if (onClick) onClick(e);
+    // Generic "App Launch" feedback if no link or specific onClick provided?
+    // For now, we'll just ensure the whileTap animation handles the visual side.
+  };
 
   const tileBase = (
     <motion.div
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
       className={`tile ${sizeClass} ${colorClass}`}
       style={{
         perspective: "1000px"
       }}
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
-      whileTap={{ scale: 0.95 }}
+      whileTap={{ scale: 0.9, transition: { duration: 0.1 } }}
+      whileHover={{ outline: "2px solid rgba(255, 255, 255, 0.5)" }}
     >
       <motion.div
         className="tile-inner"

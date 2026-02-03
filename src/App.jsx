@@ -49,6 +49,7 @@ function App() {
             color="blue"
             label="Tusshar Shibukumar Harini"
             isLive={true}
+            onClick={() => alert("Launching Profile Application...")}
             secondaryContent={
               <div style={{ textAlign: 'left', fontSize: '0.9rem' }}>
                 <p><strong>Status:</strong> Prospective CS Undergrad</p>
@@ -78,6 +79,7 @@ function App() {
             label="About Me"
             icon={<FiUser />}
             isLive={true}
+            onClick={() => alert("Opening Deep Bio...")}
             secondaryContent={
               <p style={{ fontSize: '0.85rem', whiteSpace: 'normal' }}>
                 Self-taught tech advocate building scalable and ethical AI solutions.
@@ -85,8 +87,8 @@ function App() {
             }
           />
           <div className="flex gap-2">
-            <Tile size="small" color="purple" label="Education" icon={<FiAward />} />
-            <Tile size="small" color="orange" label="Skills" icon={<FiCode />} />
+            <Tile size="small" color="purple" label="Education" icon={<FiAward />} onClick={() => alert("Loading Academic History...")} />
+            <Tile size="small" color="orange" label="Skills" icon={<FiCode />} onClick={() => alert("Scanning Technical Arsenal...")} />
           </div>
         </motion.div>
 
@@ -130,7 +132,7 @@ function App() {
             >
               <FiExternalLink style={{ transform: 'translateZ(20px)', fontSize: '2rem' }} />
             </Tile>
-            <Tile size="medium" color="pink" label="Astraeus Media">
+            <Tile size="medium" color="pink" label="Astraeus Media" onClick={() => alert("Launching Astraeus Media Hub...")}>
               <span style={{ transform: 'translateZ(10px)' }}>Media initiative for startups.</span>
             </Tile>
           </div>
@@ -139,16 +141,44 @@ function App() {
         {/* Experience Group */}
         <motion.div className="tile-group" variants={groupVariants}>
           <div className="group-title">Experience</div>
-          <Tile size="medium" color="amber" label="Politicon '25" isLive={true} secondaryContent={<p style={{ fontSize: '0.85rem' }}>Moderated ECOSOC committee & led tech systems.</p>}>
+          <Tile
+            size="medium"
+            color="amber"
+            label="Politicon '25"
+            isLive={true}
+            onClick={() => alert("Opening Career Track: Politicon '25...")}
+            secondaryContent={<p style={{ fontSize: '0.85rem' }}>Moderated ECOSOC committee & led tech systems.</p>}
+          >
             USG Tech & Chair
           </Tile>
-          <Tile size="medium" color="blue" label="Nous" isLive={true} secondaryContent={<p style={{ fontSize: '0.85rem' }}>Built AI journaling app with NLP-based scoring.</p>}>
+          <Tile
+            size="medium"
+            color="blue"
+            label="Nous"
+            isLive={true}
+            onClick={() => alert("Opening Venture Details: Nous...")}
+            secondaryContent={<p style={{ fontSize: '0.85rem' }}>Built AI journaling app with NLP-based scoring.</p>}
+          >
             Founder & Dev
           </Tile>
-          <Tile size="medium" color="teal" label="Astraeus Media" isLive={true} secondaryContent={<p style={{ fontSize: '0.85rem' }}>Directed cinematic promotional content for startups.</p>}>
+          <Tile
+            size="medium"
+            color="teal"
+            label="Astraeus Media"
+            isLive={true}
+            onClick={() => alert("Opening Venture Details: Astraeus Media...")}
+            secondaryContent={<p style={{ fontSize: '0.85rem' }}>Directed cinematic promotional content for startups.</p>}
+          >
             Founder
           </Tile>
-          <Tile size="medium" color="purple" label="Politicon '24" isLive={true} secondaryContent={<p style={{ fontSize: '0.85rem' }}>Moderated ECOSOC and assisted in delegate training.</p>}>
+          <Tile
+            size="medium"
+            color="purple"
+            label="Politicon '24"
+            isLive={true}
+            onClick={() => alert("Opening Career Track: Politicon '24...")}
+            secondaryContent={<p style={{ fontSize: '0.85rem' }}>Moderated ECOSOC and assisted in delegate training.</p>}
+          >
             Vice Chairperson
           </Tile>
         </motion.div>

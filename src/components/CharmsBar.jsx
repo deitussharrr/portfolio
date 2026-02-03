@@ -65,10 +65,17 @@ const CharmsBar = () => {
                             }}
                         >
                             {charms.map((charm, i) => (
-                                <div key={i} className="charm-item" style={{ color: 'white', textAlign: 'center', cursor: 'pointer', opacity: 0.7 }}>
+                                <motion.div
+                                    key={i}
+                                    className="charm-item"
+                                    whileHover={{ opacity: 1, scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    onClick={() => alert(`${charm.label} clicked!`)}
+                                    style={{ color: 'white', textAlign: 'center', cursor: 'pointer', opacity: 0.7 }}
+                                >
                                     <div style={{ fontSize: '1.8rem' }}>{charm.icon}</div>
                                     <div style={{ fontSize: '0.7rem', marginTop: '4px' }}>{charm.label}</div>
-                                </div>
+                                </motion.div>
                             ))}
                         </motion.div>
 
@@ -77,6 +84,8 @@ const CharmsBar = () => {
                             initial={{ x: -100, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             exit={{ x: -100, opacity: 0 }}
+                            whileHover={{ scale: 1.05 }}
+                            onClick={() => setIsOpen(false)}
                             style={{
                                 position: 'fixed',
                                 left: '60px',
@@ -86,7 +95,8 @@ const CharmsBar = () => {
                                 display: 'flex',
                                 alignItems: 'flex-end',
                                 gap: '20px',
-                                textShadow: '0 0 20px rgba(0,0,0,0.5)'
+                                textShadow: '0 0 20px rgba(0,0,0,0.5)',
+                                cursor: 'pointer'
                             }}
                         >
                             <div style={{ fontSize: '6rem', fontWeight: 300, lineHeight: 0.8 }}>
