@@ -1,26 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap');
 
 :root {
-  /* Metro UI Color Palette */
-  --metro-blue: #0078d7;
-  --metro-teal: #008a00;
-  --metro-purple: #744da9;
-  --metro-dark-purple: #4e004e;
-  --metro-red: #e51400;
-  --metro-orange: #fa6800;
-  --metro-pink: #d80073;
-  --metro-magenta: #a20025;
-  --metro-crimson: #a50021;
-  --metro-amber: #f0a30a;
-  --metro-yellow: #e3c800;
+  /* Refined Metro UI Color Palette - Richer, Authentically Vibrant */
+  --metro-blue: #0072c6;
+  --metro-teal: #00a300;
+  --metro-purple: #7e3878;
+  --metro-dark-purple: #603cba;
+  --metro-red: #ee1111;
+  --metro-orange: #ff8c00;
+  --metro-pink: #ff0097;
+  --metro-magenta: #ff0097;
+  --metro-crimson: #a20025;
+  --metro-amber: #ffc40d;
+  --metro-yellow: #ffc40d;
   --metro-brown: #825a2c;
   --metro-olive: #6d8764;
-  --metro-steel: #647687;
+  --metro-steel: #2d89ef;
   --metro-mauve: #76608a;
   --metro-taupe: #87794e;
+  --metro-green: #00a300;
+  --metro-blue-dark: #2b5797;
 
   --bg-color: #001932;
-  /* Windows 8 blue background */
+  --bg-accent: #004d99;
   --text-color: #ffffff;
 
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -35,7 +37,11 @@
 
 body {
   background-color: var(--bg-color);
-  background-image: linear-gradient(135deg, #001932 0%, #004d99 100%);
+  background-image:
+    radial-gradient(circle at 50% 50%, #004d99 0%, #001932 100%),
+    url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+  /* Subtle texture */
+  background-blend-mode: overlay;
   color: var(--text-color);
   overflow: hidden;
   /* Prevent vertical scroll, we want horizontal */
@@ -86,19 +92,21 @@ body {
   justify-content: flex-end;
   padding: 12px;
   cursor: pointer;
-  transition: transform 0.1s ease-in-out;
+  transition: all 0.2s cubic-bezier(0.17, 0.67, 0.83, 0.67);
   overflow: hidden;
   text-decoration: none;
   color: white;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  /* Subtle inner border */
 }
 
 .tile:hover {
-  outline: 2px solid rgba(255, 255, 255, 0.4);
+  outline: 3px solid rgba(255, 255, 255, 0.6);
+  outline-offset: -3px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), inset 0 0 0 2px rgba(255, 255, 255, 0.2);
+  z-index: 10;
 }
 
-.tile:active {
-  transform: scale(0.97);
-}
 
 /* Tile Sizes */
 .tile-small {
