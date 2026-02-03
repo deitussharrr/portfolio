@@ -150,6 +150,73 @@ body {
   background-color: var(--metro-amber);
 }
 
+/* Metro Border Utilities */
+.border-metro-blue {
+  border-color: var(--metro-blue);
+}
+
+.border-metro-teal {
+  border-color: var(--metro-teal);
+}
+
+.border-metro-purple {
+  border-color: var(--metro-purple);
+}
+
+.border-metro-red {
+  border-color: var(--metro-red);
+}
+
+.border-metro-orange {
+  border-color: var(--metro-orange);
+}
+
+.border-metro-pink {
+  border-color: var(--metro-pink);
+}
+
+.border-metro-amber {
+  border-color: var(--metro-amber);
+}
+
+.border-metro-steel {
+  border-color: var(--metro-steel);
+}
+
+/* Metro Text Utilities */
+.text-metro-blue {
+  color: var(--metro-blue);
+}
+
+.text-metro-teal {
+  color: var(--metro-teal);
+}
+
+.text-metro-purple {
+  color: var(--metro-purple);
+}
+
+.text-metro-red {
+  color: var(--metro-red);
+}
+
+.text-metro-orange {
+  color: var(--metro-orange);
+}
+
+.text-metro-pink {
+  color: var(--metro-pink);
+}
+
+.text-metro-amber {
+  color: var(--metro-amber);
+}
+
+.text-metro-steel {
+  color: var(--metro-steel);
+}
+
+
 .tile-inner {
   position: absolute;
   top: 0;
