@@ -1,10 +1,11 @@
-import React, { useState, useRef } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
 
-const Tile = ({ size = 'medium', color = 'blue', label, children, icon, link, isLive = false, secondaryContent }) => {
+const Tile = ({ size = 'medium', color = 'blue', label, children, icon, link, isLive = false, secondaryContent, interval = 5000 }) => {
   const sizeClass = `tile-${size}`;
   const colorClass = `bg-metro-${color}`;
 
+  const [showSecondary, setShowSecondary] = useState(false);
   const ref = useRef(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -14,6 +15,15 @@ const Tile = ({ size = 'medium', color = 'blue', label, children, icon, link, is
 
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+
+  useEffect(() => {
+    if (isLive && secondaryContent) {
+      const timer = setInterval(() => {
+        setShowSecondary(prev => !prev);
+      }, interval);
+      return () => clearInterval(timer);
+    }
+  }, [isLive, secondaryContent, interval]);
 
   const handleMouseMove = (e) => {
     if (!ref.current) return;
@@ -33,25 +43,10 @@ const Tile = ({ size = 'medium', color = 'blue', label, children, icon, link, is
     y.set(0);
   };
 
-  const content = (
-    <motion.div
-      className="tile-inner"
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: "preserve-3d",
-        width: '100%',
-        height: '100%'
-      }}
-    >
-      {icon && (
-        <div className="tile-content" style={{ transform: "translateZ(20px)" }}>
-          <div className="tile-icon">{icon}</div>
-        </div>
-      )}
-      {children && <div className="tile-content" style={{ transform: "translateZ(10px)" }}>{children}</div>}
-      {label && <div className="tile-label" style={{ transform: "translateZ(30px)" }}>{label}</div>}
-    </motion.div>
+  const renderContent = (content, z) => (
+    <div className="tile-content" style={{ transform: `translateZ(${z}px)` }}>
+      {content}
+    </div>
   );
 
   const tileBase = (
@@ -67,13 +62,54 @@ const Tile = ({ size = 'medium', color = 'blue', label, children, icon, link, is
       animate={{ opacity: 1, scale: 1 }}
       whileTap={{ scale: 0.95 }}
     >
-      {content}
+      <motion.div
+        className="tile-inner"
+        style={{
+          rotateX,
+          rotateY,
+          transformStyle: "preserve-3d",
+          width: '100%',
+          height: '100%'
+        }}
+      >
+        <AnimatePresence mode="wait">
+          {!showSecondary ? (
+            <motion.div
+              key="primary"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -20, opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}
+            >
+              <div style={{ transform: 'translateZ(10px)', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+                {icon && <div className="tile-icon" style={{ transform: 'translateZ(10px)' }}>{icon}</div>}
+                {children}
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="secondary"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -20, opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+            >
+              <div style={{ transform: 'translateZ(15px)', padding: '10px' }}>
+                {secondaryContent}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        {label && <div className="tile-label" style={{ transform: "translateZ(30px)" }}>{label}</div>}
+      </motion.div>
     </motion.div>
   );
 
   if (link) {
     return (
-      <a href={link} className="tile-link-wrapper" style={{ textDecoration: 'none' }}>
+      <a href={link} className="tile-link-wrapper" style={{ textDecoration: 'none' }} target="_blank" rel="noopener noreferrer">
         {tileBase}
       </a>
     );
