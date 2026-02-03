@@ -1,16 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap');
 
 :root {
-  /* Aero Glass Color Palette */
-  --aero-blue: rgba(0, 120, 215, 0.4);
-  --aero-glass-bg: rgba(255, 255, 255, 0.15);
-  --aero-border: rgba(255, 255, 255, 0.3);
-  --aero-highlight: rgba(255, 255, 255, 0.5);
-  --aero-shadow: rgba(0, 0, 0, 0.4);
+  /* Vista Desktop Color Palette */
+  --vista-taskbar: rgba(0, 0, 0, 0.7);
+  --vista-glass-header: rgba(255, 255, 255, 0.2);
+  --vista-border: rgba(255, 255, 255, 0.4);
+  --vista-selection: rgba(0, 120, 215, 0.3);
 
-  --bg-color: #0b1f3d;
   --text-color: #ffffff;
-
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -22,32 +19,20 @@
 }
 
 body {
-  background-color: var(--bg-color);
+  background-color: #0b1f3d;
+  /* Ultimate Vista Aurora Background */
   background-image:
-    radial-gradient(circle at 0% 0%, #1e457a 0%, transparent 50%),
-    radial-gradient(circle at 100% 0%, #3a7bd5 0%, transparent 50%),
-    radial-gradient(circle at 100% 100%, #00d2ff 0%, transparent 50%),
-    radial-gradient(circle at 0% 100%, #3a7bd5 0%, transparent 50%);
-  background-size: 200% 200%;
-  animation: aurora 20s ease infinite;
+    radial-gradient(circle at 10% 10%, rgba(30, 69, 122, 0.8) 0%, transparent 60%),
+    radial-gradient(circle at 90% 10%, rgba(58, 123, 213, 0.8) 0%, transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(0, 210, 255, 0.6) 0%, transparent 60%),
+    radial-gradient(circle at 0% 100%, rgba(58, 123, 213, 0.8) 0%, transparent 60%),
+    linear-gradient(135deg, #0b1f3d 0%, #1e457a 100%);
+  background-size: cover;
+  background-attachment: fixed;
   color: var(--text-color);
   overflow: hidden;
   height: 100vh;
   width: 100vw;
-}
-
-@keyframes aurora {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
 }
 
 #root {
@@ -55,170 +40,212 @@ body {
   width: 100%;
 }
 
-.start-screen {
-  height: 100vh;
-  padding: 20px 60px 80px 60px;
-  /* Leave space for taskbar */
-  overflow-x: auto;
-  overflow-y: hidden;
-  display: flex;
-  flex-direction: column;
-  white-space: nowrap;
-  scroll-snap-type: x mandatory;
-}
-
-.start-header {
-  margin-bottom: 30px;
-  margin-left: 10px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-}
-
-.start-header h1 {
-  font-size: 2.8rem;
-  font-weight: 300;
-  letter-spacing: 0.5px;
-}
-
-.tiles-container {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  height: calc(100vh - 200px);
-  gap: 15px;
-  padding-bottom: 20px;
-}
-
-/* Glassy Window / Aero Effect */
-.aero-glass {
-  background: var(--aero-glass-bg);
-  backdrop-filter: blur(15px) saturate(150%);
-  -webkit-backdrop-filter: blur(15px) saturate(150%);
-  border: 1px solid var(--aero-border);
-  box-shadow:
-    inset 0 1px 0 var(--aero-highlight),
-    0 8px 32px 0 var(--aero-shadow);
-  border-radius: 8px;
-}
-
-.aero-title-bar {
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
-  padding: 8px 15px;
-  display: flex;
-  align-items: center;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Tile Styles (Now Aero Widgets) */
-.tile {
+/* Desktop Layer */
+.desktop-surface {
+  width: 100vw;
+  height: calc(100vh - 40px);
   position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
   overflow: hidden;
-  text-decoration: none;
-  color: white;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
-  backdrop-filter: blur(8px);
+  display: flex;
+}
+
+.desktop-icons-container {
+  flex: 1;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 90px);
+  grid-template-rows: repeat(auto-fill, 100px);
+  grid-auto-flow: column;
+  gap: 15px;
+  max-height: 100%;
+}
+
+/* Desktop Icon Component */
+.desktop-icon {
+  width: 90px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.1s, border 0.1s;
+  border-radius: 3px;
+}
+
+.desktop-icon:hover {
+  background: rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.tile:hover {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+.desktop-icon.selected {
+  background: var(--vista-selection);
+  border: 1px solid rgba(0, 120, 215, 0.5);
 }
 
-.tile::before {
+.desktop-icon-image {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 5px;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.4));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8rem;
+}
+
+.desktop-icon-label {
+  font-size: 0.75rem;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  word-wrap: break-word;
+  padding: 0 4px;
+  line-height: 1.1;
+}
+
+/* Vista Sidebar */
+.vista-sidebar {
+  width: 160px;
+  height: 100%;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.3) 0%, transparent 100%);
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  gap: 20px;
+  overflow-y: auto;
+}
+
+.gadget {
+  width: 130px;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.gadget::after {
   content: '';
   position: absolute;
   top: 0;
-  left: -100%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(to right,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent);
-  transform: skewX(-25deg);
-  transition: 0.5s;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
 }
 
-.tile:hover::before {
-  left: 150%;
-}
-
-/* Tile Sizes - Keeping the Metro proportions but with Aero styles */
-.tile-small {
-  width: 120px;
-  height: 120px;
-}
-
-.tile-medium {
-  width: 250px;
-  height: 120px;
-}
-
-.tile-large {
-  width: 250px;
-  height: 250px;
-}
-
-.tile-wide {
-  width: 510px;
-  height: 250px;
-}
-
-/* Vista Taskbar */
-.taskbar {
+/* Taskbar Pixel-Perfect */
+.vista-taskbar {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
   height: 40px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(20px);
+  background: var(--vista-taskbar);
+  backdrop-filter: blur(25px);
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   display: flex;
   align-items: center;
-  padding: 0 10px;
   z-index: 1000;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
 }
 
-.start-button {
-  width: 48px;
-  height: 48px;
-  margin-top: -15px;
-  background: radial-gradient(circle at center, #3a7bd5 0%, #00d2ff 100%);
+.start-orb {
+  width: 50px;
+  height: 50px;
+  margin-top: -10px;
+  margin-left: 5px;
+  margin-right: 5px;
+  background: radial-gradient(circle at 50% 10%, #4ea8de, #0077b6 80%);
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 0 15px rgba(0, 210, 255, 0.6);
+  box-shadow: 0 0 15px rgba(0, 180, 216, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s;
-  position: relative;
   z-index: 1001;
-  overflow: hidden;
 }
 
-.start-button::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 0%, transparent 50%);
+.start-orb:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(0, 180, 216, 0.9);
+}
+
+.taskbar-items {
+  display: flex;
+  gap: 1px;
+  padding: 0 15px;
+  flex: 1;
+}
+
+.task-button {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 0 12px;
+  height: 32px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  max-width: 180px;
+  cursor: pointer;
+}
+
+.task-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.task-button.active {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.system-tray {
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: right;
+  line-height: 1.2;
+}
+
+/* Window Styles */
+.aero-glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(30px) saturate(200%);
+  border: 1px solid var(--vista-border);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 20px 50px rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+}
+
+.aero-title-bar {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.window-controls {
+  display: flex;
+  gap: 1px;
 }
 
 .window-control {
@@ -226,6 +253,8 @@ body {
   border: none;
   color: white;
   cursor: pointer;
+  width: 32px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -240,126 +269,19 @@ body {
   background: #e81123;
 }
 
-.start-button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 25px rgba(0, 210, 255, 0.8);
-}
-
-.tile-inner {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 15px;
-  box-sizing: border-box;
-}
-
-.tile-label {
-  position: absolute;
-  bottom: 8px;
-  left: 10px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-.tile-icon {
-  font-size: 2.5rem;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
-}
-
-/* Section Grouping */
-.tile-group {
-  display: inline-flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  height: 100%;
-  gap: 15px;
-  margin-right: 80px;
-  scroll-snap-align: start;
-}
-
-.group-title {
-  font-size: 1.4rem;
-  font-weight: 300;
-  margin-bottom: 25px;
-  opacity: 0.7;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
-
-/* Scrollbar customization */
-.start-screen::-webkit-scrollbar {
-  height: 8px;
-}
-
-.start-screen::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.start-screen::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-}
-
-/* Utils */
-.flex {
-  display: flex;
-}
-
-.flex-col {
-  flex-direction: column;
-}
-
-.items-center {
-  align-items: center;
-}
-
-.justify-center {
-  justify-content: center;
-}
-
-.gap-2 {
-  gap: 8px;
-}
-
-.gap-4 {
-  gap: 16px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .start-screen {
-    padding: 20px 20px 100px 20px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    flex-direction: column;
-    white-space: normal;
+/* Animations */
+@keyframes window-pop {
+  from {
+    transform: scale(0.9) translateY(20px);
+    opacity: 0;
   }
 
-  .tiles-container {
-    height: auto;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
   }
+}
 
-  .tile-group {
-    margin-right: 0;
-    margin-bottom: 60px;
-    width: 100%;
-    height: auto;
-    flex-direction: row;
-    justify-content: center;
-  }
-
-  .tile-wide {
-    width: 100%;
-    max-width: 510px;
-  }
+.window-animate {
+  animation: window-pop 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
