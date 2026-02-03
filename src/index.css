@@ -1,28 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap');
 
 :root {
-  /* Refined Metro UI Color Palette - Richer, Authentically Vibrant */
-  --metro-blue: #0072c6;
-  --metro-teal: #00a300;
-  --metro-purple: #7e3878;
-  --metro-dark-purple: #603cba;
-  --metro-red: #ee1111;
-  --metro-orange: #ff8c00;
-  --metro-pink: #ff0097;
-  --metro-magenta: #ff0097;
-  --metro-crimson: #a20025;
-  --metro-amber: #ffc40d;
-  --metro-yellow: #ffc40d;
-  --metro-brown: #825a2c;
-  --metro-olive: #6d8764;
-  --metro-steel: #2d89ef;
-  --metro-mauve: #76608a;
-  --metro-taupe: #87794e;
-  --metro-green: #00a300;
-  --metro-blue-dark: #2b5797;
+  /* Aero Glass Color Palette */
+  --aero-blue: rgba(0, 120, 215, 0.4);
+  --aero-glass-bg: rgba(255, 255, 255, 0.15);
+  --aero-border: rgba(255, 255, 255, 0.3);
+  --aero-highlight: rgba(255, 255, 255, 0.5);
+  --aero-shadow: rgba(0, 0, 0, 0.4);
 
-  --bg-color: #001932;
-  --bg-accent: #004d99;
+  --bg-color: #0b1f3d;
   --text-color: #ffffff;
 
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -38,15 +24,30 @@
 body {
   background-color: var(--bg-color);
   background-image:
-    radial-gradient(circle at 50% 50%, #004d99 0%, #001932 100%),
-    url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
-  /* Subtle texture */
-  background-blend-mode: overlay;
+    radial-gradient(circle at 0% 0%, #1e457a 0%, transparent 50%),
+    radial-gradient(circle at 100% 0%, #3a7bd5 0%, transparent 50%),
+    radial-gradient(circle at 100% 100%, #00d2ff 0%, transparent 50%),
+    radial-gradient(circle at 0% 100%, #3a7bd5 0%, transparent 50%);
+  background-size: 200% 200%;
+  animation: aurora 20s ease infinite;
   color: var(--text-color);
   overflow: hidden;
-  /* Prevent vertical scroll, we want horizontal */
   height: 100vh;
   width: 100vw;
+}
+
+@keyframes aurora {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 #root {
@@ -56,7 +57,8 @@ body {
 
 .start-screen {
   height: 100vh;
-  padding: 40px 80px;
+  padding: 20px 60px 80px 60px;
+  /* Leave space for taskbar */
   overflow-x: auto;
   overflow-y: hidden;
   display: flex;
@@ -66,14 +68,15 @@ body {
 }
 
 .start-header {
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   margin-left: 10px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .start-header h1 {
-  font-size: 3.5rem;
+  font-size: 2.8rem;
   font-weight: 300;
-  letter-spacing: -1px;
+  letter-spacing: 0.5px;
 }
 
 .tiles-container {
@@ -81,34 +84,78 @@ body {
   flex-direction: column;
   flex-wrap: wrap;
   height: calc(100vh - 200px);
-  gap: 10px;
+  gap: 15px;
   padding-bottom: 20px;
 }
 
+/* Glassy Window / Aero Effect */
+.aero-glass {
+  background: var(--aero-glass-bg);
+  backdrop-filter: blur(15px) saturate(150%);
+  -webkit-backdrop-filter: blur(15px) saturate(150%);
+  border: 1px solid var(--aero-border);
+  box-shadow:
+    inset 0 1px 0 var(--aero-highlight),
+    0 8px 32px 0 var(--aero-shadow);
+  border-radius: 8px;
+}
+
+.aero-title-bar {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+  padding: 8px 15px;
+  display: flex;
+  align-items: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Tile Styles (Now Aero Widgets) */
 .tile {
   position: relative;
   display: inline-flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: 12px;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
   overflow: hidden;
   text-decoration: none;
   color: white;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-  /* Subtle inner border */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .tile:hover {
-  outline: 3px solid rgba(255, 255, 255, 0.6);
-  outline-offset: -3px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), inset 0 0 0 2px rgba(255, 255, 255, 0.2);
-  z-index: 10;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
+.tile::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent);
+  transform: skewX(-25deg);
+  transition: 0.5s;
+}
 
-/* Tile Sizes */
+.tile:hover::before {
+  left: 150%;
+}
+
+/* Tile Sizes - Keeping the Metro proportions but with Aero styles */
 .tile-small {
   width: 120px;
   height: 120px;
@@ -129,101 +176,74 @@ body {
   height: 250px;
 }
 
-/* Tile Colors */
-.bg-metro-blue {
-  background-color: var(--metro-blue);
+/* Vista Taskbar */
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  z-index: 1000;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
 }
 
-.bg-metro-teal {
-  background-color: var(--metro-teal);
+.start-button {
+  width: 48px;
+  height: 48px;
+  margin-top: -15px;
+  background: radial-gradient(circle at center, #3a7bd5 0%, #00d2ff 100%);
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 15px rgba(0, 210, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  z-index: 1001;
+  overflow: hidden;
 }
 
-.bg-metro-purple {
-  background-color: var(--metro-purple);
+.start-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 0%, transparent 50%);
 }
 
-.bg-metro-red {
-  background-color: var(--metro-red);
+.window-control {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
 }
 
-.bg-metro-orange {
-  background-color: var(--metro-orange);
+.window-control:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
-.bg-metro-pink {
-  background-color: var(--metro-pink);
+.window-control.close:hover {
+  background: #e81123;
 }
 
-.bg-metro-amber {
-  background-color: var(--metro-amber);
+.start-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(0, 210, 255, 0.8);
 }
-
-/* Metro Border Utilities */
-.border-metro-blue {
-  border-color: var(--metro-blue);
-}
-
-.border-metro-teal {
-  border-color: var(--metro-teal);
-}
-
-.border-metro-purple {
-  border-color: var(--metro-purple);
-}
-
-.border-metro-red {
-  border-color: var(--metro-red);
-}
-
-.border-metro-orange {
-  border-color: var(--metro-orange);
-}
-
-.border-metro-pink {
-  border-color: var(--metro-pink);
-}
-
-.border-metro-amber {
-  border-color: var(--metro-amber);
-}
-
-.border-metro-steel {
-  border-color: var(--metro-steel);
-}
-
-/* Metro Text Utilities */
-.text-metro-blue {
-  color: var(--metro-blue);
-}
-
-.text-metro-teal {
-  color: var(--metro-teal);
-}
-
-.text-metro-purple {
-  color: var(--metro-purple);
-}
-
-.text-metro-red {
-  color: var(--metro-red);
-}
-
-.text-metro-orange {
-  color: var(--metro-orange);
-}
-
-.text-metro-pink {
-  color: var(--metro-pink);
-}
-
-.text-metro-amber {
-  color: var(--metro-amber);
-}
-
-.text-metro-steel {
-  color: var(--metro-steel);
-}
-
 
 .tile-inner {
   position: absolute;
@@ -233,36 +253,24 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: 12px;
-  box-sizing: border-box;
-  transform-style: preserve-3d;
-}
-
-.tile-label {
-  font-size: 0.85rem;
-  font-weight: 400;
-  z-index: 2;
-  transform: translateZ(30px);
-}
-
-
-.tile-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   padding: 15px;
   box-sizing: border-box;
 }
 
+.tile-label {
+  position: absolute;
+  bottom: 8px;
+  left: 10px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
 .tile-icon {
-  font-size: 3rem;
-  opacity: 0.9;
+  font-size: 2.5rem;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
 }
 
 /* Section Grouping */
@@ -271,34 +279,32 @@ body {
   flex-direction: column;
   flex-wrap: wrap;
   height: 100%;
-  gap: 10px;
-  margin-right: 60px;
+  gap: 15px;
+  margin-right: 80px;
   scroll-snap-align: start;
 }
 
 .group-title {
-  font-size: 1.5rem;
-  font-weight: 400;
-  margin-bottom: 20px;
-  opacity: 0.8;
+  font-size: 1.4rem;
+  font-weight: 300;
+  margin-bottom: 25px;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 /* Scrollbar customization */
 .start-screen::-webkit-scrollbar {
-  height: 16px;
+  height: 8px;
 }
 
 .start-screen::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .start-screen::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2);
-  border: 4px solid var(--bg-color);
-}
-
-.start-screen::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
 }
 
 /* Utils */
@@ -329,7 +335,7 @@ body {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .start-screen {
-    padding: 20px 30px;
+    padding: 20px 20px 100px 20px;
     overflow-y: auto;
     overflow-x: hidden;
     flex-direction: column;
@@ -345,7 +351,7 @@ body {
 
   .tile-group {
     margin-right: 0;
-    margin-bottom: 40px;
+    margin-bottom: 60px;
     width: 100%;
     height: auto;
     flex-direction: row;
