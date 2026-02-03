@@ -18,10 +18,11 @@
   --metro-steel: #647687;
   --metro-mauve: #76608a;
   --metro-taupe: #87794e;
-  
-  --bg-color: #001932; /* Windows 8 blue background */
+
+  --bg-color: #001932;
+  /* Windows 8 blue background */
   --text-color: #ffffff;
-  
+
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -36,7 +37,8 @@ body {
   background-color: var(--bg-color);
   background-image: linear-gradient(135deg, #001932 0%, #004d99 100%);
   color: var(--text-color);
-  overflow: hidden; /* Prevent vertical scroll, we want horizontal */
+  overflow: hidden;
+  /* Prevent vertical scroll, we want horizontal */
   height: 100vh;
   width: 100vw;
 }
@@ -120,19 +122,55 @@ body {
 }
 
 /* Tile Colors */
-.bg-metro-blue { background-color: var(--metro-blue); }
-.bg-metro-teal { background-color: var(--metro-teal); }
-.bg-metro-purple { background-color: var(--metro-purple); }
-.bg-metro-red { background-color: var(--metro-red); }
-.bg-metro-orange { background-color: var(--metro-orange); }
-.bg-metro-pink { background-color: var(--metro-pink); }
-.bg-metro-amber { background-color: var(--metro-amber); }
+.bg-metro-blue {
+  background-color: var(--metro-blue);
+}
+
+.bg-metro-teal {
+  background-color: var(--metro-teal);
+}
+
+.bg-metro-purple {
+  background-color: var(--metro-purple);
+}
+
+.bg-metro-red {
+  background-color: var(--metro-red);
+}
+
+.bg-metro-orange {
+  background-color: var(--metro-orange);
+}
+
+.bg-metro-pink {
+  background-color: var(--metro-pink);
+}
+
+.bg-metro-amber {
+  background-color: var(--metro-amber);
+}
+
+.tile-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12px;
+  box-sizing: border-box;
+  transform-style: preserve-3d;
+}
 
 .tile-label {
   font-size: 0.85rem;
   font-weight: 400;
   z-index: 2;
+  transform: translateZ(30px);
 }
+
 
 .tile-content {
   position: absolute;
@@ -189,12 +227,29 @@ body {
 }
 
 /* Utils */
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.items-center { align-items: center; }
-.justify-center { justify-content: center; }
-.gap-2 { gap: 8px; }
-.gap-4 { gap: 16px; }
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.gap-4 {
+  gap: 16px;
+}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
@@ -205,14 +260,14 @@ body {
     flex-direction: column;
     white-space: normal;
   }
-  
+
   .tiles-container {
     height: auto;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
   }
-  
+
   .tile-group {
     margin-right: 0;
     margin-bottom: 40px;
@@ -221,7 +276,7 @@ body {
     flex-direction: row;
     justify-content: center;
   }
-  
+
   .tile-wide {
     width: 100%;
     max-width: 510px;
