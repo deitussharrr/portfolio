@@ -61,10 +61,17 @@ const AeroWindow = ({ isOpen, onClose, title, children, icon, initialX = 100, in
                 zIndex: isFocused ? 3000 : 2000
             }}
             exit={{ opacity: 0, scale: 0.95 }}
+            whileDrag={{ scale: 1.02, opacity: 0.9 }}
             drag={!isMaximized}
             dragControls={dragControls}
             dragListener={false}
             dragMomentum={false}
+            onDragStart={onFocus}
+            onDragEnd={(e, info) => {
+                if (info.point.y <= 10) {
+                    setIsMaximized(true);
+                }
+            }}
             style={{
                 position: 'fixed',
                 display: 'flex',
@@ -82,7 +89,7 @@ const AeroWindow = ({ isOpen, onClose, title, children, icon, initialX = 100, in
                 onDoubleClick={() => setIsMaximized(!isMaximized)}
             >
                 <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <div style={{ fontSize: '1.1rem', opacity: 0.8 }}>{icon}</div>
+                    <div style={{ width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{icon}</div>
                     <span style={{ fontSize: '0.85rem', fontWeight: 500, textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>{title}</span>
                 </div>
                 <div className="window-controls">

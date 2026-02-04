@@ -9,6 +9,12 @@ import Sidebar from './components/Sidebar';
 import DetailView from './components/DetailView';
 import profileImg from './assets/profile.jpg';
 import startOrbImg from './assets/start-orb.png';
+import userIcon from './assets/vista-user.png';
+import computerIcon from './assets/vista-computer.png';
+import docsIcon from './assets/vista-documents.png';
+import controlIcon from './assets/vista-control-panel.png';
+import historyIcon from './assets/vista-history.png';
+import recycleIcon from './assets/vista-recycle-bin.png';
 
 function App() {
   const [openApps, setOpenApps] = useState([]);
@@ -37,12 +43,12 @@ function App() {
   };
 
   const desktopIcons = [
-    { id: 'me', label: 'Tusshar', icon: <FiUser className="text-blue-400" />, title: 'User Profile' },
-    { id: 'about', label: 'Computer', icon: <FiMonitor className="text-blue-200" />, title: 'System Information' },
-    { id: 'experience', label: 'Documents', icon: <FiFolder className="text-yellow-400" />, title: 'Work Experience' },
-    { id: 'skills', label: 'Control Panel', icon: <FiCode className="text-gray-400" />, title: 'Technical Arsenal' },
-    { id: 'education', label: 'History', icon: <FiAward className="text-purple-400" />, title: 'Education' },
-    { id: 'recycle', label: 'Recycle Bin', icon: <FiTrash2 className="text-gray-400" />, title: 'Recycle Bin' },
+    { id: 'me', label: 'Tusshar', icon: <img src={userIcon} alt="" className="vista-icon-img" />, title: 'User Profile' },
+    { id: 'about', label: 'Computer', icon: <img src={computerIcon} alt="" className="vista-icon-img" />, title: 'System Information' },
+    { id: 'experience', label: 'Documents', icon: <img src={docsIcon} alt="" className="vista-icon-img" />, title: 'Work Experience' },
+    { id: 'skills', label: 'Control Panel', icon: <img src={controlIcon} alt="" className="vista-icon-img" />, title: 'Technical Arsenal' },
+    { id: 'education', label: 'History', icon: <img src={historyIcon} alt="" className="vista-icon-img" />, title: 'Education' },
+    { id: 'recycle', label: 'Recycle Bin', icon: <img src={recycleIcon} alt="" className="vista-icon-img" />, title: 'Recycle Bin' },
   ];
 
   const renderAppContent = (id) => {
@@ -399,8 +405,6 @@ function App() {
 
   return (
     <div className="desktop-surface" onClick={() => setSelectedIcon(null)}>
-      <Sidebar />
-
       <div className="desktop-icons-container">
         {desktopIcons.map(icon => (
           <DesktopIcon
@@ -418,6 +422,8 @@ function App() {
           />
         ))}
       </div>
+
+      <Sidebar />
 
       {/* Render Multiple Windows */}
       <AnimatePresence>
