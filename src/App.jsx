@@ -151,17 +151,37 @@ function App() {
               <div className="space-y-0">
                 <div className="timeline-item">
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-2">
-                    <h4 className="text-xl font-bold">Nous</h4>
-                    <span className="text-sm font-mono text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full">2024 — Present</span>
+                    <h4 className="text-xl font-bold">GestureGlide</h4>
+                    <span className="text-sm font-mono text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full">Nov 2025 — Present</span>
+                  </div>
+                  <p className="text-lg text-blue-200 font-medium mb-4 italic">Lead Developer</p>
+                  <p className="opacity-80 leading-relaxed mb-4">Elevate your desktop experience with GestureGlide. Control your music, videos, and system volume using intuitive hand gestures through your webcam. No buttons, no touch—just pure motion.</p>
+                  <div className="flex flex-wrap gap-2">
+                    {["Computer Vision", "OpenCV", "Gesture Recognition", "Python"].map(t => <span key={t} className="skill-tag text-[0.7rem]">{t}</span>)}
+                  </div>
+                </div>
+
+                <div className="timeline-item">
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-2">
+                    <h4 className="text-xl font-bold">Nous - The AI Emotional Mirror</h4>
+                    <span className="text-sm font-mono text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full">Mar 2025 — Present</span>
                   </div>
                   <p className="text-lg text-blue-200 font-medium mb-4 italic">Founder & Developer</p>
-                  <ul className="space-y-3 opacity-80 text-base leading-relaxed mb-6">
-                    <li className="flex gap-3"><span className="text-blue-400">•</span> Built an AI-powered emotion journaling web application focusing on sentiment tracking.</li>
-                    <li className="flex gap-3"><span className="text-blue-400">•</span> Implemented NLP-based emotion scoring using Python and integrated it with a React frontend.</li>
-                    <li className="flex gap-3"><span className="text-blue-400">•</span> Designed a privacy-first architecture with decentralized data storage considerations.</li>
-                  </ul>
+                  <p className="opacity-80 leading-relaxed mb-4">Nous is an AI-powered emotional mirror that helps you reflect on your feelings, understand your mental state, and track emotional patterns through intelligent journaling and visualization.</p>
                   <div className="flex flex-wrap gap-2">
-                    {["React", "Python", "NLP", "Vercel", "Tailwind"].map(t => <span key={t} className="skill-tag text-[0.7rem]">{t}</span>)}
+                    {["Sentiment Analysis", "Generative AI", "NLP", "React", "Python"].map(t => <span key={t} className="skill-tag text-[0.7rem]">{t}</span>)}
+                  </div>
+                </div>
+
+                <div className="timeline-item">
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-2">
+                    <h4 className="text-xl font-bold">Stegone</h4>
+                    <span className="text-sm font-mono text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full">Oct 2025 — Feb 2026</span>
+                  </div>
+                  <p className="text-lg text-blue-200 font-medium mb-4 italic">Developer</p>
+                  <p className="opacity-80 leading-relaxed mb-4">Stegone is a secure steganography tool that hides secret messages inside images using advanced cryptographic techniques.</p>
+                  <div className="flex flex-wrap gap-2">
+                    {["Steganography", "Cryptography", "Public Key Cryptography"].map(t => <span key={t} className="skill-tag text-[0.7rem]">{t}</span>)}
                   </div>
                 </div>
 
@@ -173,12 +193,7 @@ function App() {
                   <p className="text-lg text-blue-200 font-medium mb-4 italic">USG Technology & Web Developer</p>
                   <ul className="space-y-3 opacity-80 text-base leading-relaxed mb-6">
                     <li className="flex gap-3"><span className="text-blue-400">•</span> Led technical infrastructure and digital systems for a major school-led conference.</li>
-                    <li className="flex gap-3"><span className="text-blue-400">•</span> Designed and deployed the official website with registration and scheduling features.</li>
-                    <li className="flex gap-3"><span className="text-blue-400">•</span> Managing end-to-end digital production workflows for event promotion.</li>
                   </ul>
-                  <div className="flex flex-wrap gap-2">
-                    {["Infrastructure", "Leadership", "Next.js", "Web Hosting"].map(t => <span key={t} className="skill-tag text-[0.7rem]">{t}</span>)}
-                  </div>
                 </div>
 
                 <div className="timeline-item">
@@ -299,7 +314,7 @@ function App() {
                   </div>
                   <div className="system-info-row">
                     <span className="system-info-label font-mono"><FiAward className="inline mr-2" />Relevant Subjects</span>
-                    <span className="system-info-value">Physics, Chemistry, Maths, Informatics Practices</span>
+                    <span className="system-info-value">Physics, Chemistry, Mathematics, Computer Science, Mass Media Studies</span>
                   </div>
                 </div>
               </div>

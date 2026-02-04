@@ -20,14 +20,11 @@
 
 body {
   background-color: #0b1f3d;
-  /* Ultimate Vista Aurora Background */
-  background-image:
-    radial-gradient(circle at 10% 10%, rgba(30, 69, 122, 0.8) 0%, transparent 60%),
-    radial-gradient(circle at 90% 10%, rgba(58, 123, 213, 0.8) 0%, transparent 60%),
-    radial-gradient(circle at 100% 100%, rgba(0, 210, 255, 0.6) 0%, transparent 60%),
-    radial-gradient(circle at 0% 100%, rgba(58, 123, 213, 0.8) 0%, transparent 60%),
-    linear-gradient(135deg, #0b1f3d 0%, #1e457a 100%);
+  /* Authentic Vista Aurora Wallpaper */
+  background-image: url('./assets/vista-bg.png');
   background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   background-attachment: fixed;
   color: var(--text-color);
   overflow: hidden;
