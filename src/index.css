@@ -149,6 +149,14 @@ body {
 }
 
 /* Taskbar Pixel-Perfect */
+.selection-marquee {
+  position: fixed;
+  background: rgba(0, 120, 215, 0.3);
+  border: 1px solid rgba(0, 120, 215, 0.8);
+  pointer-events: none;
+  z-index: 5000;
+}
+
 .vista-taskbar {
   position: fixed;
   bottom: 0;
@@ -596,8 +604,8 @@ body {
 
 /* Easter Eggs */
 .matrix-mode {
-  filter: hue-rotate(90deg) brightness(1.2) contrast(1.2);
-  transition: filter 1s ease;
+  filter: invert(1) hue-rotate(180deg) brightness(0.8) contrast(1.5) sepia(1) saturate(10) hue-rotate(80deg);
+  transition: filter 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .bsod-container {

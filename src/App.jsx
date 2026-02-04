@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiLinkedin, FiGithub, FiUser, FiCode,
   FiAward, FiFolder, FiTrash2, FiMonitor, FiInfo, FiActivity,
-  FiMail, FiPower, FiRotateCcw, FiGlobe
+  FiMail, FiPower, FiRotateCcw, FiGlobe, FiCheckCircle, FiExternalLink
 } from 'react-icons/fi';
 import DesktopIcon from './components/DesktopIcon';
 import Sidebar from './components/Sidebar';
@@ -27,26 +27,60 @@ function App() {
   const [isMatrixMode, setIsMatrixMode] = useState(false);
   const [buildClicks, setBuildClicks] = useState(0);
   const [shutDownClicks, setShutDownClicks] = useState(0);
+  const [binClicks, setBinClicks] = useState(0);
   const [konamiIndex, setKonamiIndex] = useState(0);
+  const [selection, setSelection] = useState(null); // { startX, startY, currentX, currentY }
   const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+
+  const handleMouseDown = (e) => {
+    // Only start selection if clicking directly on the desktop surface
+    if (e.target.classList.contains('desktop-surface') || e.target.classList.contains('desktop-icons-container')) {
+      setSelection({
+        startX: e.clientX,
+        startY: e.clientY,
+        currentX: e.clientX,
+        currentY: e.clientY
+      });
+      setSelectedIcon(null);
+      setIsStartMenuOpen(false);
+    }
+  };
+
+  const handleMouseMove = (e) => {
+    if (selection) {
+      setSelection(prev => ({
+        ...prev,
+        currentX: e.clientX,
+        currentY: e.clientY
+      }));
+    }
+  };
+
+  const handleMouseUp = () => {
+    setSelection(null);
+  };
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === konamiCode[konamiIndex]) {
-        const nextIndex = konamiIndex + 1;
-        if (nextIndex === konamiCode.length) {
-          setIsMatrixMode(prev => !prev);
-          setKonamiIndex(0);
+      const pressedKey = e.key.toLowerCase();
+
+      setKonamiIndex(prevIndex => {
+        const targetKey = konamiCode[prevIndex].toLowerCase();
+        if (pressedKey === targetKey) {
+          const nextIndex = prevIndex + 1;
+          if (nextIndex === konamiCode.length) {
+            setIsMatrixMode(m => !m);
+            return 0;
+          }
+          return nextIndex;
         } else {
-          setKonamiIndex(nextIndex);
+          return pressedKey === konamiCode[0].toLowerCase() ? 1 : 0;
         }
-      } else {
-        setKonamiIndex(0);
-      }
+      });
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [konamiIndex]);
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -54,8 +88,13 @@ function App() {
   }, []);
 
   const openApp = (app) => {
-    if (!openApps.find(a => a.id === app.id)) {
-      setOpenApps([...openApps, app]);
+    const existingApp = openApps.find(a => a.id === app.id);
+    if (!existingApp) {
+      setOpenApps([...openApps, { ...app, isMinimized: false }]);
+    } else if (existingApp.isMinimized) {
+      setOpenApps(openApps.map(a =>
+        a.id === app.id ? { ...a, isMinimized: false } : a
+      ));
     }
     setFocusedAppId(app.id);
     setIsStartMenuOpen(false);
@@ -66,6 +105,30 @@ function App() {
     setOpenApps(newOpenApps);
     if (focusedAppId === id) {
       setFocusedAppId(newOpenApps.length > 0 ? newOpenApps[newOpenApps.length - 1].id : null);
+    }
+  };
+
+  const minimizeApp = (id) => {
+    setOpenApps(openApps.map(app =>
+      app.id === id ? { ...app, isMinimized: true } : app
+    ));
+    setFocusedAppId(null);
+  };
+
+  const toggleAppVisibility = (id) => {
+    const app = openApps.find(a => a.id === id);
+    if (!app) return;
+
+    if (app.isMinimized || focusedAppId !== id) {
+      setOpenApps(openApps.map(a =>
+        a.id === id ? { ...a, isMinimized: false } : a
+      ));
+      setFocusedAppId(id);
+    } else {
+      setOpenApps(openApps.map(app =>
+        app.id === id ? { ...app, isMinimized: true } : app
+      ));
+      setFocusedAppId(null);
     }
   };
 
@@ -328,18 +391,37 @@ function App() {
             </section>
 
             <section>
-              <h3 className="resume-heading">Certifications</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <h3 className="resume-heading"><FiAward className="text-yellow-400" /> Professional Certifications</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
-                  { title: "Harvard CS50x / P / AI", provider: "Harvard University" },
-                  { title: "Deep Learning Specialization", provider: "DeepLearning.AI" },
-                  { title: "Intro to Responsible AI", provider: "Google Cloud" },
-                  { title: "Ethical Hacker (Foundational)", provider: "Self-Paced" },
-                  { title: "Digital Skills: AI", provider: "Accenture" }
+                  { title: "Harvard CS50x / P / AI", provider: "Harvard University", date: "2024", id: "CS50-Verified" },
+                  { title: "Deep Learning Specialization", provider: "DeepLearning.AI", date: "2024", id: "DL-SPECIAL" },
+                  { title: "Intro to Responsible AI", provider: "Google Cloud", date: "2023", id: "GC-AI-900" },
+                  { title: "Ethical Hacker (Foundational)", provider: "Self-Paced / CompTIA", date: "2024", id: "EH-FOUND" },
+                  { title: "Digital Skills: AI", provider: "Accenture", date: "2024", id: "ACC-AI-2024" }
                 ].map((cert, i) => (
-                  <div key={i} className="p-4 rounded-xl bg-white/5 border border-white/10 flex flex-col justify-center border-l-4 border-l-blue-500/50">
-                    <h5 className="font-bold text-sm leading-tight text-white/90">{cert.title}</h5>
-                    <p className="text-[0.65rem] opacity-40 uppercase tracking-widest mt-1 font-semibold">{cert.provider}</p>
+                  <div key={i} className="group relative overflow-hidden p-5 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 border-l-4 border-l-yellow-500/50">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h5 className="font-bold text-base leading-tight text-white mb-1 group-hover:text-yellow-400 transition-colors">{cert.title}</h5>
+                        <div className="flex items-center gap-2 mb-3">
+                          <span className="text-[0.65rem] opacity-50 uppercase tracking-widest font-semibold">{cert.provider}</span>
+                          <span className="w-1 h-1 rounded-full bg-white/20"></span>
+                          <span className="text-[0.65rem] opacity-50 font-mono tracking-tighter text-blue-300">{cert.date}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="flex items-center gap-1 text-[0.6rem] font-mono bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded border border-blue-500/20">
+                            <FiCheckCircle className="text-[0.7rem]" /> VERIFIED
+                          </span>
+                          <span className="text-[0.55rem] font-mono opacity-30 uppercase">ID: {cert.id}</span>
+                        </div>
+                      </div>
+                      <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 opacity-60 group-hover:opacity-100 group-hover:rotate-12 transition-all">
+                        <FiAward className="text-2xl" />
+                      </div>
+                    </div>
+                    {/* Subtle Holographic Effect */}
+                    <div className="absolute -right-4 -bottom-4 w-20 h-20 bg-yellow-400/5 rounded-full blur-2xl group-hover:bg-yellow-400/10 transition-all pointer-events-none" />
                   </div>
                 ))}
               </div>
@@ -452,10 +534,30 @@ function App() {
 
       case 'recycle':
         return (
-          <div className="flex flex-col items-center justify-center p-20 opacity-20 grayscale">
-            <FiTrash2 className="text-[12rem] mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]" />
-            <p className="text-2xl font-light tracking-widest uppercase">The Bin is empty</p>
-            <p className="text-xs font-mono mt-4 opacity-50">0 Items Deleted</p>
+          <div className="flex flex-col items-center justify-center h-full p-20">
+            <motion.div
+              className={`flex flex-col items-center transition-all ${binClicks >= 5 ? 'opacity-100 grayscale-0 scale-110' : 'opacity-20 grayscale'}`}
+              onClick={() => setBinClicks(c => c + 1)}
+              whileTap={{ scale: 0.9 }}
+            >
+              <FiTrash2 className="text-[12rem] mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] cursor-pointer" />
+              <p className="text-2xl font-light tracking-widest uppercase">
+                {binClicks >= 5 ? "DISK CLEANUP IN PROGRESS" : "The Bin is empty"}
+              </p>
+              {binClicks >= 5 && (
+                <div className="w-64 h-2 bg-white/10 rounded-full mt-6 overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                    className="h-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,1)]"
+                  />
+                </div>
+              )}
+              <p className="text-xs font-mono mt-4 opacity-50">
+                {binClicks >= 5 ? "Deleting system cache... (just kidding)" : `0 Items Deleted (Clicks: ${binClicks}/5)`}
+              </p>
+            </motion.div>
           </div>
         );
       default:
@@ -490,10 +592,24 @@ function App() {
         </div>
       )}
 
-      <div className="desktop-surface" onClick={() => {
-        setSelectedIcon(null);
-        setIsStartMenuOpen(false);
-      }}>
+      <div
+        className="desktop-surface"
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+      >
+        {selection && (
+          <div
+            className="selection-marquee"
+            style={{
+              left: Math.min(selection.startX, selection.currentX),
+              top: Math.min(selection.startY, selection.currentY),
+              width: Math.abs(selection.currentX - selection.startX),
+              height: Math.abs(selection.currentY - selection.startY)
+            }}
+          />
+        )}
         <div className="desktop-icons-container">
           {desktopIcons.map(icon => (
             <DesktopIcon
@@ -517,11 +633,12 @@ function App() {
 
         {/* Render Multiple Windows */}
         <AnimatePresence>
-          {openApps.map((app, index) => (
+          {openApps.filter(app => !app.isMinimized).map((app, index) => (
             <DetailView
               key={app.id}
               isOpen={true}
               onClose={() => closeApp(app.id)}
+              onMinimize={() => minimizeApp(app.id)}
               title={app.title}
               icon={app.icon}
               initialX={window.innerWidth < 768 ? 5 + (index * 5) : 100 + (index * 30)}
@@ -633,8 +750,8 @@ function App() {
             {openApps.map(app => (
               <div
                 key={app.id}
-                className={`task-button ${focusedAppId === app.id ? 'active' : ''}`}
-                onClick={() => setFocusedAppId(app.id)}
+                className={`task-button ${focusedAppId === app.id && !app.isMinimized ? 'active' : ''}`}
+                onClick={() => toggleAppVisibility(app.id)}
               >
                 <span className="text-lg">{app.icon}</span>
                 <span className="truncate max-w-[100px]">{app.label}</span>

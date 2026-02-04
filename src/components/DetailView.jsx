@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import { FiX, FiMinus, FiSquare } from 'react-icons/fi';
 
-const AeroWindow = ({ isOpen, onClose, title, children, icon, initialX = 100, initialY = 100, isFocused, onFocus }) => {
+const AeroWindow = ({ isOpen, onClose, onMinimize, title, children, icon, initialX = 100, initialY = 100, isFocused, onFocus }) => {
     const [size, setSize] = useState({
         width: typeof window !== 'undefined' && window.innerWidth < 768 ? window.innerWidth - 20 : 800,
         height: typeof window !== 'undefined' && window.innerHeight < 768 ? window.innerHeight - 100 : 600
@@ -76,7 +76,7 @@ const AeroWindow = ({ isOpen, onClose, title, children, icon, initialX = 100, in
                 y: isMaximized ? 0 : initialY,
                 zIndex: isFocused ? 3000 : 2000
             }}
-            exit={{ opacity: 0, scale: 0.95 }}
+            exit={{ opacity: 0, scale: 0.95, y: 100 }}
             whileDrag={{ scale: 1.02, opacity: 0.9 }}
             drag={!isMaximized}
             dragControls={dragControls}
@@ -109,7 +109,16 @@ const AeroWindow = ({ isOpen, onClose, title, children, icon, initialX = 100, in
                     <span style={{ fontSize: '0.85rem', fontWeight: 500, textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>{title}</span>
                 </div>
                 <div className="window-controls">
-                    <button className="window-control" title="Minimize"><FiMinus /></button>
+                    <button
+                        className="window-control"
+                        title="Minimize"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onMinimize();
+                        }}
+                    >
+                        <FiMinus />
+                    </button>
                     <button
                         className="window-control"
                         title={isMaximized ? "Restore" : "Maximize"}
