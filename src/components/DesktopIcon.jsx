@@ -1,11 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const DesktopIcon = ({ icon, label, onClick, isSelected, id, title }) => {
+const DesktopIcon = ({ icon, label, onClick, isSelected, id, title, onDoubleClick }) => {
     return (
         <motion.div
             className={`desktop-icon ${isSelected ? 'selected' : ''}`}
             onClick={onClick}
+            onDoubleClick={onDoubleClick}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             initial={{ opacity: 0, scale: 0.8 }}

@@ -1,108 +1,152 @@
-import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import { FiX, FiMinus, FiSquare } from 'react-icons/fi';
 
-const DetailView = ({ isOpen, onClose, title, children }) => {
+const AeroWindow = ({ isOpen, onClose, title, children, icon, initialX = 100, initialY = 100, isFocused, onFocus }) => {
+    const [size, setSize] = useState({ width: 800, height: 600 });
+    const [isMaximized, setIsMaximized] = useState(false);
+    const dragControls = useDragControls();
+    const windowRef = useRef(null);
+
+    // Resizing logic
+    const [isResizing, setIsResizing] = useState(false);
+
+    const startResizing = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onFocus(); // Focus the window when resizing starts
+        setIsResizing(true);
+    };
+
+    useEffect(() => {
+        const handleMouseMove = (e) => {
+            if (!isResizing) return;
+
+            const newWidth = Math.max(400, e.clientX - windowRef.current.offsetLeft);
+            const newHeight = Math.max(300, e.clientY - windowRef.current.offsetTop);
+
+            setSize({ width: newWidth, height: newHeight });
+        };
+
+        const handleMouseUp = () => {
+            setIsResizing(false);
+        };
+
+        if (isResizing) {
+            window.addEventListener('mousemove', handleMouseMove);
+            window.addEventListener('mouseup', handleMouseUp);
+        }
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isResizing]);
+
+    if (!isOpen) return null;
+
     return (
-        <AnimatePresence>
-            {isOpen && (
-                <div style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    zIndex: 2000,
-                    padding: '40px'
-                }}>
-                    {/* Backdrop blur for the desktop */}
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        onClick={onClose}
-                        style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            height: '100%',
-                            background: 'rgba(0,0,0,0.3)',
-                            backdropFilter: 'blur(5px)'
-                        }}
-                    />
-
-                    <motion.div
-                        className="aero-glass"
-                        initial={{ scale: 0.9, opacity: 0, y: 50 }}
-                        animate={{ scale: 1, opacity: 1, y: 0 }}
-                        exit={{ scale: 0.9, opacity: 0, y: 50 }}
-                        transition={{ type: 'spring', damping: 20, stiffness: 150 }}
-                        style={{
-                            width: '100%',
-                            maxWidth: '1200px',
-                            height: '85vh',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            position: 'relative',
-                            overflow: 'hidden'
-                        }}
-                    >
-                        {/* Title Bar */}
-                        <div className="aero-title-bar">
-                            <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <div style={{ width: '16px', height: '16px', background: 'white', opacity: 0.2, borderRadius: '2px' }} />
-                                <span style={{ fontSize: '0.85rem', fontWeight: 500, textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>{title}</span>
-                            </div>
-                            <div style={{ display: 'flex', gap: '1px' }}>
-                                <button className="window-control" style={{ padding: '5px 12px' }}><FiMinus /></button>
-                                <button className="window-control" style={{ padding: '5px 12px' }}><FiSquare style={{ fontSize: '0.7rem' }} /></button>
-                                <button
-                                    className="window-control close"
-                                    onClick={onClose}
-                                    style={{ padding: '5px 15px' }}
-                                >
-                                    <FiX />
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Window Content */}
-                        <div style={{
-                            flex: 1,
-                            overflowY: 'auto',
-                            padding: '40px',
-                            background: 'rgba(0,0,0,0.4)',
-                            scrollbarWidth: 'thin'
-                        }}>
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.2 }}
-                                style={{ maxWidth: '1000px', margin: '0 auto' }}
-                            >
-                                {children}
-                            </motion.div>
-                        </div>
-
-                        {/* Glossy overlay for the whole window */}
-                        <div style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            height: '100%',
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%)',
-                            pointerEvents: 'none'
-                        }} />
-                    </motion.div>
+        <motion.div
+            ref={windowRef}
+            className="aero-glass window-animate"
+            onPointerDown={onFocus} // Focus the window when clicked
+            initial={{ opacity: 0, scale: 0.95, x: initialX, y: initialY }}
+            animate={{
+                opacity: 1,
+                scale: 1,
+                width: isMaximized ? '100vw' : size.width,
+                height: isMaximized ? 'calc(100vh - 40px)' : size.height,
+                x: isMaximized ? 0 : initialX,
+                y: isMaximized ? 0 : initialY,
+                zIndex: isFocused ? 3000 : 2000
+            }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            drag={!isMaximized}
+            dragControls={dragControls}
+            dragListener={false}
+            dragMomentum={false}
+            style={{
+                position: 'fixed',
+                display: 'flex',
+                flexDirection: 'column',
+                overflow: 'hidden',
+                boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
+                pointerEvents: 'auto'
+            }}
+        >
+            {/* Title Bar - Draggable Area */}
+            <div
+                className="aero-title-bar"
+                onPointerDown={(e) => dragControls.start(e)}
+                style={{ cursor: isMaximized ? 'default' : 'move', userSelect: 'none' }}
+                onDoubleClick={() => setIsMaximized(!isMaximized)}
+            >
+                <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{ fontSize: '1.1rem', opacity: 0.8 }}>{icon}</div>
+                    <span style={{ fontSize: '0.85rem', fontWeight: 500, textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>{title}</span>
                 </div>
+                <div className="window-controls">
+                    <button className="window-control" title="Minimize"><FiMinus /></button>
+                    <button
+                        className="window-control"
+                        title={isMaximized ? "Restore" : "Maximize"}
+                        onClick={() => setIsMaximized(!isMaximized)}
+                    >
+                        <FiSquare style={{ fontSize: '0.7rem' }} />
+                    </button>
+                    <button
+                        className="window-control close"
+                        onClick={onClose}
+                        title="Close"
+                    >
+                        <FiX />
+                    </button>
+                </div>
+            </div>
+
+            {/* Window Content */}
+            <div style={{
+                flex: 1,
+                overflowY: 'auto',
+                padding: '30px',
+                background: 'rgba(0,0,0,0.4)',
+                scrollbarWidth: 'thin',
+                color: 'white'
+            }}>
+                <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+                    {children}
+                </div>
+            </div>
+
+            {/* Resize Handle */}
+            {!isMaximized && (
+                <div
+                    onMouseDown={startResizing}
+                    style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        right: 0,
+                        width: '15px',
+                        height: '15px',
+                        cursor: 'nwse-resize',
+                        zIndex: 10,
+                        background: 'linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.2) 50%)'
+                    }}
+                />
             )}
-        </AnimatePresence>
+
+            {/* Glossy Overlay */}
+            <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '50px',
+                background: 'linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, transparent 100%)',
+                pointerEvents: 'none'
+            }} />
+        </motion.div>
     );
 };
 
-export default DetailView;
+export default AeroWindow;
