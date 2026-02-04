@@ -8,6 +8,7 @@ import DesktopIcon from './components/DesktopIcon';
 import Sidebar from './components/Sidebar';
 import DetailView from './components/DetailView';
 import profileImg from './assets/profile.jpg';
+import startOrbImg from './assets/start-orb.png';
 
 function App() {
   const [openApps, setOpenApps] = useState([]);
@@ -438,8 +439,8 @@ function App() {
       </AnimatePresence>
 
       <div className="vista-taskbar">
-        <motion.div className="start-orb" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          <div style={{ fontSize: '1.4rem', color: 'white', textShadow: '0 0 10px white' }}>⊞</div>
+        <motion.div className="start-orb" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+          <img src={startOrbImg} alt="Start" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         </motion.div>
 
         <div className="taskbar-items">
