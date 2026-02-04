@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiLinkedin, FiGithub, FiUser, FiCode,
   FiAward, FiFolder, FiTrash2, FiMonitor, FiInfo, FiActivity,
-  FiMail, FiPower, FiRotateCcw
+  FiMail, FiPower, FiRotateCcw, FiGlobe
 } from 'react-icons/fi';
 import DesktopIcon from './components/DesktopIcon';
 import Sidebar from './components/Sidebar';
@@ -132,28 +132,40 @@ function App() {
                   </div>
                 </section>
 
-                <section className="resume-section">
-                  <h3 className="resume-heading text-lg">Languages</h3>
-                  <div className="space-y-4">
+                <section>
+                  <h3 className="resume-heading text-lg"><FiGlobe className="text-blue-400" /> Languages</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {[
-                      { l: "English", v: "Fluent", p: 95 },
-                      { l: "Tamil", v: "Native", p: 100 },
-                      { l: "Malayalam", v: "Native", p: 100 },
-                      { l: "Spanish", v: "Elementary", p: 30 }
+                      { l: "English", v: "Fluent / Professional", p: 95, icon: "🇬🇧", tag: "C2" },
+                      { l: "Tamil", v: "Native / Bilingual", p: 100, icon: "🇮🇳", tag: "Native" },
+                      { l: "Malayalam", v: "Native / Billingual", p: 100, icon: "🌴", tag: "Native" },
+                      { l: "Spanish", v: "Elementary", p: 30, icon: "🇪🇸", tag: "A1" }
                     ].map(lang => (
-                      <div key={lang.l} className="space-y-1">
-                        <div className="flex justify-between text-xs mb-1">
-                          <span className="opacity-70 font-medium">{lang.l}</span>
-                          <span className="text-blue-300 font-bold">{lang.v}</span>
+                      <div key={lang.l} className="resume-section mb-0 p-4 relative group overflow-hidden border-l-2 border-l-blue-500/50">
+                        <div className="flex items-start justify-between mb-3">
+                          <div className="flex items-center gap-3">
+                            <span className="text-2xl grayscale group-hover:grayscale-0 transition-all">{lang.icon}</span>
+                            <div>
+                              <h4 className="font-bold text-sm leading-tight">{lang.l}</h4>
+                              <p className="text-[0.65rem] opacity-50 uppercase tracking-tighter">{lang.v}</p>
+                            </div>
+                          </div>
+                          <span className="text-[0.6rem] font-mono bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded border border-blue-500/20">
+                            {lang.tag}
+                          </span>
                         </div>
-                        <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
-                          <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: `${lang.p}%` }}
-                            transition={{ duration: 1, delay: 0.5 }}
-                            className="h-full bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.3)]"
-                          />
+                        <div className="space-y-1">
+                          <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: `${lang.p}%` }}
+                              transition={{ duration: 1.5, ease: "easeOut" }}
+                              className="h-full bg-gradient-to-r from-blue-600 to-cyan-400"
+                            />
+                          </div>
                         </div>
+                        {/* Glass Shine Effect */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
                       </div>
                     ))}
                   </div>
