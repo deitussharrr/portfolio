@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiLinkedin, FiGithub, FiUser, FiCode,
-  FiAward, FiFolder, FiTrash2, FiMonitor, FiInfo
+  FiAward, FiFolder, FiTrash2, FiMonitor, FiInfo, FiActivity
 } from 'react-icons/fi';
 import DesktopIcon from './components/DesktopIcon';
 import Sidebar from './components/Sidebar';
@@ -48,169 +48,332 @@ function App() {
     switch (id) {
       case 'me':
         return (
-          <div className="space-y-10">
-            <section className="bg-white/5 p-8 rounded-xl border border-white/10">
-              <h2 className="text-3xl font-light mb-4 text-blue-300">Profile</h2>
-              <p className="text-lg opacity-90 leading-relaxed">
-                Prospective Computer Science undergraduate and self-taught technologist with strong interests in software engineering, artificial intelligence, and product design.
-                Founder of independent technology initiatives with hands-on experience in full-stack development, AI-driven systems, technical leadership, and large-scale student event infrastructure.
-              </p>
-            </section>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white/5 p-6 rounded-xl border border-white/10">
-                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                  <span className="text-blue-400">🌍</span> Languages
-                </h3>
-                <ul className="space-y-2 opacity-80">
-                  <li>• English (Fluent)</li>
-                  <li>• Tamil (Native)</li>
-                  <li>• Malayalam (Native)</li>
-                  <li>• Spanish (Elementary)</li>
-                </ul>
+          <div className="space-y-6">
+            <header className="flex flex-col md:flex-row gap-8 items-center border-b border-white/10 pb-8 mb-8">
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                <img src={profileImg} alt="Profile" className="relative w-32 h-32 rounded-full border-2 border-white/20 object-cover shadow-2xl" />
               </div>
-              <div className="bg-white/5 p-6 rounded-xl border border-white/10 flex flex-col items-center justify-center text-center">
-                <img src={profileImg} alt="Profile" className="w-24 h-24 rounded-full border-2 border-white/20 mb-4 object-cover shadow-xl" />
-                <h3 className="text-lg font-bold">Tusshar Shibukumar Harini</h3>
-                <p className="text-sm opacity-60">Chennai, India</p>
-                <div className="flex gap-4 mt-4">
-                  <FiGithub className="cursor-pointer hover:text-blue-400 text-xl" onClick={() => window.open('https://github.com/deitussharrr', '_blank')} />
-                  <FiLinkedin className="cursor-pointer hover:text-blue-400 text-xl" onClick={() => window.open('https://linkedin.com/in/tussharshibukumar', '_blank')} />
+              <div className="text-center md:text-left">
+                <h2 className="text-4xl font-bold tracking-tight mb-2">Tusshar Shibukumar Harini</h2>
+                <p className="text-xl text-blue-300 font-light mb-4 italic">Self-Taught Technologist & Problem Solver</p>
+                <div className="flex flex-wrap justify-center md:justify-start gap-4">
+                  <a href="mailto:tussharshibukumarharini@gmail.com" className="flex items-center gap-2 text-sm opacity-70 hover:opacity-100 transition-opacity">
+                    <FiInfo className="text-blue-400" /> tussharshibukumarharini@gmail.com
+                  </a>
+                  <span className="flex items-center gap-2 text-sm opacity-70">
+                    <span className="text-blue-400">📍</span> Chennai, India
+                  </span>
                 </div>
+              </div>
+            </header>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="lg:col-span-2 space-y-6">
+                <section>
+                  <h3 className="resume-heading">Profile</h3>
+                  <p className="text-lg leading-relaxed opacity-90 font-light">
+                    Prospective Computer Science undergraduate and self-taught technologist with strong interests in software engineering, artificial intelligence, and product design.
+                    Founder of independent technology initiatives with hands-on experience in full-stack development, AI-driven systems, technical leadership, and large-scale student event infrastructure.
+                  </p>
+                </section>
+
+                <section>
+                  <h3 className="resume-heading">What I'm Building</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {[
+                      { icon: "⚡", title: "Scalable Systems", desc: "Orchestrating robust digital infrastructures." },
+                      { icon: "🎨", title: "Product Design", desc: "Merging functionality with premium aesthetics." }
+                    ].map((item, i) => (
+                      <div key={i} className="p-4 rounded-xl bg-white/5 border border-white/5">
+                        <span className="text-2xl mb-2 block">{item.icon}</span>
+                        <h4 className="font-bold text-blue-200 mb-1">{item.title}</h4>
+                        <p className="text-sm opacity-60 leading-tight">{item.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              </div>
+
+              <div className="space-y-6">
+                <section className="resume-section">
+                  <h3 className="resume-heading text-lg">Social Links</h3>
+                  <div className="space-y-4">
+                    <button
+                      onClick={() => window.open('https://github.com/deitussharrr', '_blank')}
+                      className="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors border border-white/10 group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <FiGithub className="text-xl text-blue-300" />
+                        <span className="font-semibold">GitHub</span>
+                      </div>
+                      <span className="text-xs opacity-40 group-hover:translate-x-1 transition-transform">→</span>
+                    </button>
+                    <button
+                      onClick={() => window.open('https://linkedin.com/in/tussharshibukumar', '_blank')}
+                      className="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors border border-white/10 group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <FiLinkedin className="text-xl text-blue-300" />
+                        <span className="font-semibold">LinkedIn</span>
+                      </div>
+                      <span className="text-xs opacity-40 group-hover:translate-x-1 transition-transform">→</span>
+                    </button>
+                  </div>
+                </section>
+
+                <section className="resume-section">
+                  <h3 className="resume-heading text-lg">Languages</h3>
+                  <div className="space-y-2">
+                    {[
+                      { l: "English", v: "Fluent" },
+                      { l: "Tamil", v: "Native" },
+                      { l: "Malayalam", v: "Native" },
+                      { l: "Spanish", v: "Elementary" }
+                    ].map(lang => (
+                      <div key={lang.l} className="flex justify-between text-sm py-1 border-b border-white/5">
+                        <span className="opacity-60">{lang.l}</span>
+                        <span className="font-semibold text-blue-300">{lang.v}</span>
+                      </div>
+                    ))}
+                  </div>
+                </section>
               </div>
             </div>
           </div>
         );
-      case 'about':
-        return (
-          <div className="space-y-8">
-            <div className="flex items-center gap-6 mb-6">
-              <FiMonitor className="text-6xl text-blue-300" />
-              <div>
-                <h2 className="text-3xl font-light">System Properties</h2>
-                <p className="opacity-60 text-sm">Portfolio OS v1.0 • Vista Aero</p>
-              </div>
-            </div>
-            <div className="bg-white/5 p-6 rounded-xl border border-white/10">
-              <h3 className="text-lg font-bold mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
-                <FiInfo /> Summary
-              </h3>
-              <p className="opacity-80 leading-relaxed">
-                Self-taught technologist focused on creating scalable, ethical, and impact-driven technology solutions.
-                Experience ranges from full-stack development to orchestrating technical infrastructure for major conferences.
-              </p>
-              <div className="mt-6 space-y-3">
-                <div className="flex justify-between border-b border-white/5 pb-2">
-                  <span className="opacity-50">Email</span>
-                  <span className="text-blue-400">tussharshibukumarharini@gmail.com</span>
-                </div>
-                <div className="flex justify-between border-b border-white/5 pb-2">
-                  <span className="opacity-50">Location</span>
-                  <span>Chennai, India</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
+
       case 'experience':
         return (
           <div className="space-y-12">
-            <div>
-              <h2 className="text-2xl font-bold mb-6 text-blue-300">Projects & Leadership</h2>
-              <div className="space-y-6">
-                <div className="bg-white/5 p-6 rounded-xl border border-white/10">
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-xl font-bold text-white">Nous</h3>
-                    <span className="text-sm opacity-50">2024 — Present</span>
+            <section>
+              <h3 className="resume-heading">Experience & Projects</h3>
+              <div className="space-y-0">
+                <div className="timeline-item">
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-2">
+                    <h4 className="text-xl font-bold">Nous</h4>
+                    <span className="text-sm font-mono text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full">2024 — Present</span>
                   </div>
-                  <p className="text-blue-400 text-sm mb-4 font-semibold uppercase tracking-wider text-[0.7rem]">Founder & Developer</p>
-                  <ul className="space-y-2 text-sm opacity-80">
-                    <li>• Built an AI-powered emotion journaling web application</li>
-                    <li>• Implemented NLP-based emotion scoring and trend visualization</li>
-                    <li>• Designed privacy-first architecture with ethical AI considerations</li>
+                  <p className="text-lg text-blue-200 font-medium mb-4 italic">Founder & Developer</p>
+                  <ul className="space-y-3 opacity-80 text-base leading-relaxed mb-6">
+                    <li className="flex gap-3"><span className="text-blue-400">•</span> Built an AI-powered emotion journaling web application focusing on sentiment tracking.</li>
+                    <li className="flex gap-3"><span className="text-blue-400">•</span> Implemented NLP-based emotion scoring using Python and integrated it with a React frontend.</li>
+                    <li className="flex gap-3"><span className="text-blue-400">•</span> Designed a privacy-first architecture with decentralized data storage considerations.</li>
                   </ul>
+                  <div className="flex flex-wrap gap-2">
+                    {["React", "Python", "NLP", "Vercel", "Tailwind"].map(t => <span key={t} className="skill-tag text-[0.7rem]">{t}</span>)}
+                  </div>
                 </div>
-                <div className="bg-white/5 p-6 rounded-xl border border-white/10">
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-xl font-bold text-white">Politicon '25</h3>
-                    <span className="text-sm opacity-50">2025</span>
+
+                <div className="timeline-item">
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-2">
+                    <h4 className="text-xl font-bold">Politicon '25</h4>
+                    <span className="text-sm font-mono text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full">2025</span>
                   </div>
-                  <p className="text-blue-400 text-sm mb-4 font-semibold uppercase tracking-wider text-[0.7rem]">USG Technology & Web Developer</p>
-                  <ul className="space-y-2 text-sm opacity-80">
-                    <li>• Led technical infrastructure and digital systems for the conference</li>
-                    <li>• Designed and deployed the official conference website</li>
-                    <li>• Moderated international policy debates as ECOSOC Chairperson</li>
+                  <p className="text-lg text-blue-200 font-medium mb-4 italic">USG Technology & Web Developer</p>
+                  <ul className="space-y-3 opacity-80 text-base leading-relaxed mb-6">
+                    <li className="flex gap-3"><span className="text-blue-400">•</span> Led technical infrastructure and digital systems for a major school-led conference.</li>
+                    <li className="flex gap-3"><span className="text-blue-400">•</span> Designed and deployed the official website with registration and scheduling features.</li>
+                    <li className="flex gap-3"><span className="text-blue-400">•</span> Managing end-to-end digital production workflows for event promotion.</li>
                   </ul>
+                  <div className="flex flex-wrap gap-2">
+                    {["Infrastructure", "Leadership", "Next.js", "Web Hosting"].map(t => <span key={t} className="skill-tag text-[0.7rem]">{t}</span>)}
+                  </div>
+                </div>
+
+                <div className="timeline-item">
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-2">
+                    <h4 className="text-xl font-bold">Astraeus — Media</h4>
+                    <span className="text-sm font-mono text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full">2025</span>
+                  </div>
+                  <p className="text-lg text-blue-200 font-medium mb-4 italic">Founder</p>
+                  <p className="opacity-80 leading-relaxed mb-4">Founded a student-led creative and technology-focused initiative for startups and academic institutions.</p>
                 </div>
               </div>
-            </div>
-            <div>
-              <h2 className="text-2xl font-bold mb-6 text-blue-300">Volunteer Experience</h2>
-              <div className="space-y-6">
-                <div className="bg-white/5 p-6 rounded-xl border border-white/10">
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-xl font-bold text-white">Imperium Ventures</h3>
-                    <span className="text-sm opacity-50">2025</span>
+            </section>
+
+            <section>
+              <h3 className="resume-heading">Volunteer Work</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="resume-section mb-0">
+                  <div className="flex justify-between mb-2">
+                    <h4 className="font-bold">Imperium Ventures</h4>
+                    <span className="text-xs opacity-50 font-mono">2025</span>
                   </div>
-                  <p className="text-blue-400 text-sm mb-2 font-semibold uppercase tracking-wider text-[0.7rem]">USG Sponsorships</p>
-                  <p className="text-sm opacity-70">Assisted with partnership outreach, sponsor coordination, and event logistics.</p>
+                  <p className="text-blue-300 text-sm mb-3">USG Sponsorships</p>
+                  <p className="text-xs opacity-60">Coordinating with sponsors and managing event logistics for partnership outreach.</p>
+                </div>
+                <div className="resume-section mb-0">
+                  <div className="flex justify-between mb-2">
+                    <h4 className="font-bold">Mind4Youth</h4>
+                    <span className="text-xs opacity-50 font-mono">2024</span>
+                  </div>
+                  <p className="text-blue-300 text-sm mb-3">Volunteer</p>
+                  <p className="text-xs opacity-60">Supported initiatives focusing on youth-centric mental health awareness campaigns.</p>
                 </div>
               </div>
-            </div>
+            </section>
           </div>
         );
+
       case 'skills':
         return (
-          <div className="space-y-8">
-            <h2 className="text-2xl font-bold text-blue-300">Technical Arsenal</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                { title: "Programming & Web", skills: ["Python", "JavaScript", "React", "Next.js", "Vite"] },
-                { title: "Databases & Tools", skills: ["SQL", "MySQL", "MongoDB", "Firebase", "Git", "Vercel"] },
-                { title: "AI / Machine Learning", skills: ["NLP", "TensorFlow", "LLMs", "Generative AI"] },
-                { title: "Specialized", skills: ["Ethical Hacking", "Cybersecurity", "IoT", "UX Thinking"] }
-              ].map((group, i) => (
-                <div key={i} className="bg-white/5 p-6 rounded-xl border border-white/10">
-                  <h3 className="text-lg font-bold mb-4 text-white opacity-90">{group.title}</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {group.skills.map(s => (
-                      <span key={s} className="px-3 py-1 bg-blue-500/10 text-blue-300 rounded-full text-xs border border-blue-500/20">{s}</span>
-                    ))}
+          <div className="space-y-12">
+            <section>
+              <h3 className="resume-heading">Technical Arsenal</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {[
+                  {
+                    title: "Programming & Web",
+                    skills: ["Python", "JavaScript", "React", "Next.js", "Node.js", "Vite", "Tailwind CSS"],
+                    icon: <FiCode className="text-blue-400" />
+                  },
+                  {
+                    title: "AI / Machine Learning",
+                    skills: ["NLP", "TensorFlow", "Large Language Models", "Generative AI", "Sentiment Analysis"],
+                    icon: <FiActivity className="text-cyan-400" />
+                  },
+                  {
+                    title: "Databases & DevOps",
+                    skills: ["SQL", "MySQL", "MongoDB", "Firebase", "Git", "Vercel", "Linux"],
+                    icon: <FiMonitor className="text-blue-300" />
+                  },
+                  {
+                    title: "Cyber & Specialized",
+                    skills: ["Ethical Hacking", "Internet of Things", "UI/UX Design", "Public Speaking", "Strategic Planning"],
+                    icon: <FiInfo className="text-purple-400" />
+                  }
+                ].map((group, i) => (
+                  <div key={i} className="resume-section mb-0 flex flex-col h-full">
+                    <h4 className="flex items-center gap-3 font-bold text-lg mb-6 border-b border-white/5 pb-3">
+                      {group.icon} {group.title}
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {group.skills.map(s => <span key={s} className="skill-tag">{s}</span>)}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            </section>
+
+            <section>
+              <h3 className="resume-heading">Certifications</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {[
+                  { title: "Harvard CS50x / P / AI", provider: "Harvard University" },
+                  { title: "Deep Learning Specialization", provider: "DeepLearning.AI" },
+                  { title: "Intro to Responsible AI", provider: "Google Cloud" },
+                  { title: "Ethical Hacker (Foundational)", provider: "Self-Paced" },
+                  { title: "Digital Skills: AI", provider: "Accenture" }
+                ].map((cert, i) => (
+                  <div key={i} className="p-4 rounded-xl bg-white/5 border border-white/10 flex flex-col justify-center border-l-4 border-l-blue-500/50">
+                    <h5 className="font-bold text-sm leading-tight text-white/90">{cert.title}</h5>
+                    <p className="text-[0.65rem] opacity-40 uppercase tracking-widest mt-1 font-semibold">{cert.provider}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
           </div>
         );
+
       case 'education':
         return (
-          <div className="space-y-10">
-            <h2 className="text-2xl font-bold text-blue-300">Education</h2>
-            <div className="bg-white/5 p-8 rounded-xl border border-white/10 space-y-10">
-              <div>
-                <h3 className="text-xl font-bold">The Schram Academy</h3>
-                <p className="text-blue-300 mb-2">Class XII (CBSE)</p>
-                <div className="flex justify-between text-sm opacity-60">
-                  <span>2024 — 2026</span>
-                  <span>Predicted: 83%</span>
+          <div className="space-y-8">
+            <h3 className="resume-heading">Academic Journey</h3>
+            <div className="space-y-6">
+              <div className="resume-section border-l-4 border-l-blue-500/80">
+                <div className="flex flex-col md:flex-row justify-between md:items-center mb-6">
+                  <div>
+                    <h4 className="text-2xl font-bold">The Schram Academy</h4>
+                    <p className="text-blue-300 font-medium">Chennai, India</p>
+                  </div>
+                  <div className="bg-blue-500/20 px-4 py-2 rounded-xl text-center md:text-right mt-4 md:mt-0">
+                    <p className="text-xs opacity-50 uppercase font-mono tracking-widest">Class XII (CBSE)</p>
+                    <p className="text-xl font-bold text-blue-400">Predicted Score: 83%</p>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className="system-info-row">
+                    <span className="system-info-label font-mono"><FiActivity className="inline mr-2" />Timeline</span>
+                    <span className="system-info-value">2024 — 2026</span>
+                  </div>
+                  <div className="system-info-row">
+                    <span className="system-info-label font-mono"><FiAward className="inline mr-2" />Relevant Subjects</span>
+                    <span className="system-info-value">Physics, Chemistry, Maths, Informatics Practices</span>
+                  </div>
                 </div>
               </div>
-              <div className="pt-6 border-t border-white/10">
-                <h3 className="text-xl font-bold">The Schram Academy</h3>
-                <p className="text-blue-300 mb-2">Class X (CBSE)</p>
-                <div className="flex justify-between text-sm opacity-60">
-                  <span>2022 — 2024</span>
-                  <span>Score: 80.6%</span>
+
+              <div className="resume-section border-l-4 border-l-blue-500/40 opacity-80">
+                <div className="flex flex-col md:flex-row justify-between md:items-center mb-6">
+                  <div>
+                    <h4 className="text-xl font-bold">The Schram Academy</h4>
+                    <p className="text-blue-300/80 font-medium">Class X (CBSE)</p>
+                  </div>
+                  <div className="bg-blue-500/10 px-4 py-2 rounded-xl text-center md:text-right mt-4 md:mt-0">
+                    <p className="text-xs opacity-50 uppercase font-mono tracking-widest">Graduated</p>
+                    <p className="text-lg font-bold text-blue-400/80">Score: 80.6%</p>
+                  </div>
+                </div>
+                <div className="system-info-row border-none">
+                  <span className="system-info-label font-mono">Period</span>
+                  <span className="system-info-value">2022 — 2024</span>
                 </div>
               </div>
             </div>
           </div>
         );
+
+      case 'about':
+        return (
+          <div className="space-y-8">
+            <section className="flex items-center gap-10 p-10 bg-gradient-to-br from-blue-900/30 to-black/30 rounded-3xl border border-white/10 shadow-inner">
+              <FiMonitor className="text-9xl text-blue-400/50 drop-shadow-[0_0_20px_rgba(78,168,222,0.3)]" />
+              <div>
+                <h2 className="text-5xl font-black tracking-tighter mb-2 italic">AERO VERSION 6.0</h2>
+                <p className="text-xl text-blue-300 opacity-60 font-light tracking-widest uppercase">Tusshar Desktop OS Portfolio Edition</p>
+              </div>
+            </section>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="resume-section">
+                <h4 className="resume-heading text-lg">System Info</h4>
+                <div className="space-y-1">
+                  {[
+                    { l: "Operating System", v: "Windows Vista Portfolio v1.0" },
+                    { l: "Build Version", v: "2026.02.04" },
+                    { l: "Environment", v: "React, Framer Motion, Tailwind" },
+                    { l: "Developer", v: "Tusshar Shibukumar Harini" }
+                  ].map(row => (
+                    <div key={row.l} className="system-info-row">
+                      <span className="system-info-label">{row.l}:</span>
+                      <span className="system-info-value">{row.v}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="resume-section">
+                <h4 className="resume-heading text-lg">Status</h4>
+                <p className="text-sm opacity-60 leading-relaxed italic">
+                  "Building highly functional, aesthetically pleasing digital systems that empower users through elegant AI integration and human-centric design."
+                </p>
+                <div className="mt-8 flex items-center gap-4">
+                  <div className="h-2 flex-1 bg-white/5 rounded-full overflow-hidden">
+                    <div className="h-full w-[88%] bg-gradient-to-r from-blue-600 to-cyan-400 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+                  </div>
+                  <span className="text-[0.6rem] font-mono opacity-40 uppercase tracking-tighter">Capacity Loaded</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
       case 'recycle':
         return (
-          <div className="flex flex-col items-center justify-center p-20 opacity-30 grayscale">
-            <FiTrash2 className="text-9xl mb-6" />
-            <p className="text-xl font-bold">Recycle Bin</p>
-            <p className="text-sm opacity-60 mt-2">The folder is empty</p>
+          <div className="flex flex-col items-center justify-center p-20 opacity-20 grayscale">
+            <FiTrash2 className="text-[12rem] mb-6 drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]" />
+            <p className="text-2xl font-light tracking-widest uppercase">The Bin is empty</p>
+            <p className="text-xs font-mono mt-4 opacity-50">0 Items Deleted</p>
           </div>
         );
       default:

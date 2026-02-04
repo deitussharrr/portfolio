@@ -285,3 +285,96 @@ body {
 .window-animate {
   animation: window-pop 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
+
+/* UI Utility Classes */
+.resume-section {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.resume-heading {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #4ea8de;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(78, 168, 222, 0.3);
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 32px;
+  margin-bottom: 32px;
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -7px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #4ea8de;
+  box-shadow: 0 0 10px rgba(78, 168, 222, 0.5);
+}
+
+.skill-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(78, 168, 222, 0.1);
+  border: 1px solid rgba(78, 168, 222, 0.3);
+  color: #90e0ef;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  margin: 4px;
+  transition: all 0.2s;
+}
+
+.skill-tag:hover {
+  background: rgba(78, 168, 222, 0.2);
+  transform: translateY(-2px);
+}
+
+.system-info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.system-info-label {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+}
+
+.system-info-value {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
