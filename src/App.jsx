@@ -120,7 +120,7 @@ function App() {
                       <span className="text-xs opacity-40 group-hover:translate-x-1 transition-transform">→</span>
                     </button>
                     <button
-                      onClick={() => window.open('https://linkedin.com/in/tussharshibukumar', '_blank')}
+                      onClick={() => window.open('https://www.linkedin.com/in/tussharshibukumarharini', '_blank')}
                       className="w-full flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors border border-white/10 group"
                     >
                       <div className="flex items-center gap-3">
@@ -515,7 +515,7 @@ function App() {
                   <div className="start-menu-item-icon"><FiMail className="text-blue-300" /></div>
                   <span className="start-menu-item-label">Email Me</span>
                 </div>
-                <div className="start-menu-item" onClick={() => window.open('https://linkedin.com/in/tussharshibukumar', '_blank')}>
+                <div className="start-menu-item" onClick={() => window.open('https://www.linkedin.com/in/tussharshibukumarharini', '_blank')}>
                   <div className="start-menu-item-icon"><FiLinkedin className="text-blue-300" /></div>
                   <span className="start-menu-item-label">LinkedIn</span>
                 </div>
@@ -583,7 +583,7 @@ function App() {
           </div>
           <div className="flex gap-2 text-lg opacity-80">
             <FiGithub className="cursor-pointer hover:text-white" onClick={() => window.open('https://github.com/deitussharrr', '_blank')} />
-            <FiLinkedin className="cursor-pointer hover:text-white" onClick={() => window.open('https://linkedin.com/in/tussharshibukumar', '_blank')} />
+            <FiLinkedin className="cursor-pointer hover:text-white" onClick={() => window.open('https://www.linkedin.com/in/tussharshibukumarharini', '_blank')} />
           </div>
         </div>
       </div>

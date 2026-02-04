@@ -502,3 +502,78 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.2);
 }
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .vista-sidebar {
+    display: none;
+  }
+
+  .desktop-icons-container {
+    grid-template-columns: repeat(auto-fill, 75px);
+    grid-template-rows: repeat(auto-fill, 85px);
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .desktop-icon {
+    width: 75px;
+    height: 85px;
+  }
+
+  .desktop-icon-image {
+    width: 38px;
+    height: 38px;
+    font-size: 2rem;
+  }
+
+  .desktop-icon-label {
+    font-size: 0.65rem;
+  }
+
+  /* Taskbar mobile adjustments */
+  .system-tray {
+    display: none;
+  }
+
+  .task-button span:last-child {
+    display: none;
+    /* Hide labels on mobile task buttons */
+  }
+
+  .task-button {
+    width: 40px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .taskbar-items {
+    padding: 0 5px;
+  }
+
+  .start-menu {
+    width: calc(100vw - 10px);
+    height: 80vh;
+    left: 5px;
+  }
+
+  .start-menu-right {
+    display: none;
+    /* Simplify start menu on mobile */
+  }
+
+  /* Window mobile adjustments */
+  .aero-glass {
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .resume-section {
+    padding: 15px;
+  }
+
+  .resume-heading {
+    font-size: 1.2rem;
+  }
+}

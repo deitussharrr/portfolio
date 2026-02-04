@@ -5,8 +5,21 @@ import { FiX, FiMinus, FiSquare } from 'react-icons/fi';
 const AeroWindow = ({ isOpen, onClose, title, children, icon, initialX = 100, initialY = 100, isFocused, onFocus }) => {
     const [size, setSize] = useState({ width: 800, height: 600 });
     const [isMaximized, setIsMaximized] = useState(false);
+    const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
     const dragControls = useDragControls();
     const windowRef = useRef(null);
+
+    // Track mobile view
+    useEffect(() => {
+        const handleResize = () => {
+            const mobile = window.innerWidth < 768;
+            setIsMobile(mobile);
+            if (mobile) setIsMaximized(true);
+        };
+        window.addEventListener('resize', handleResize);
+        handleResize(); // Initial check
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     // Resizing logic
     const [isResizing, setIsResizing] = useState(false);
