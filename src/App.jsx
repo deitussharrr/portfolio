@@ -23,6 +23,30 @@ function App() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
+  const [isBSOD, setIsBSOD] = useState(false);
+  const [isMatrixMode, setIsMatrixMode] = useState(false);
+  const [buildClicks, setBuildClicks] = useState(0);
+  const [shutDownClicks, setShutDownClicks] = useState(0);
+  const [konamiIndex, setKonamiIndex] = useState(0);
+  const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === konamiCode[konamiIndex]) {
+        const nextIndex = konamiIndex + 1;
+        if (nextIndex === konamiCode.length) {
+          setIsMatrixMode(prev => !prev);
+          setKonamiIndex(0);
+        } else {
+          setKonamiIndex(nextIndex);
+        }
+      } else {
+        setKonamiIndex(0);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [konamiIndex]);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -388,13 +412,24 @@ function App() {
                 <div className="space-y-1">
                   {[
                     { l: "Operating System", v: "Windows Vista Portfolio v1.0" },
-                    { l: "Build Version", v: "2026.02.04" },
+                    {
+                      l: "Build Version",
+                      v: buildClicks >= 5 ? "DEV_MODE_ENABLED_777" : "2026.02.04",
+                      onClick: () => {
+                        setBuildClicks(c => c + 1);
+                        if (buildClicks === 4) alert("Developer Mode Unlocked! Try the Konami Code on your keyboard...");
+                      }
+                    },
                     { l: "Environment", v: "React, Framer Motion, Tailwind" },
                     { l: "Developer", v: "Tusshar Shibukumar Harini" }
                   ].map(row => (
-                    <div key={row.l} className="system-info-row">
+                    <div
+                      key={row.l}
+                      className={`system-info-row ${row.onClick ? 'cursor-help' : ''}`}
+                      onClick={row.onClick}
+                    >
                       <span className="system-info-label">{row.l}:</span>
-                      <span className="system-info-value">{row.v}</span>
+                      <span className={`system-info-value ${row.l === "Build Version" && buildClicks >= 5 ? 'text-green-400 font-mono animate-pulse' : ''}`}>{row.v}</span>
                     </div>
                   ))}
                 </div>
@@ -429,161 +464,201 @@ function App() {
   };
 
   return (
-    <div className="desktop-surface" onClick={() => {
-      setSelectedIcon(null);
-      setIsStartMenuOpen(false);
-    }}>
-      <div className="desktop-icons-container">
-        {desktopIcons.map(icon => (
-          <DesktopIcon
-            key={icon.id}
-            {...icon}
-            isSelected={selectedIcon === icon.id}
-            onClick={(e) => {
-              e.stopPropagation();
-              setSelectedIcon(icon.id);
-              setIsStartMenuOpen(false);
-            }}
-            onDoubleClick={(e) => {
-              e.stopPropagation();
-              openApp(icon);
-            }}
-          />
-        ))}
-      </div>
+    <div className={`desktop-wrapper ${isMatrixMode ? 'matrix-mode' : ''}`}>
+      {isBSOD && (
+        <div className="bsod-container" onClick={() => {
+          setIsBSOD(false);
+          setShutDownClicks(0);
+          window.location.reload();
+        }}>
+          <div className="bsod-content">
+            <div className="bsod-title">VISTA_SYSTEM_FAILURE</div>
+            <p>A problem has been detected and Windows has been shut down to prevent damage to your computer.</p>
+            <br />
+            <p>The problem seems to be caused by the following file: PORTFOLIO.SYS</p>
+            <br />
+            <p>If this is the first time you've seen this Stop error screen, restart your computer. If this screen appears again, follow these steps:</p>
+            <br />
+            <p>Check to make sure any new hardware or software is properly installed. If this is a new installation, ask your hardware or software manufacturer for any Windows updates you might need.</p>
+            <br />
+            <p>Technical Information:</p>
+            <br />
+            <p>*** STOP: 0x000000ED (0x80F128D0, 0xc000009c, 0x00000000, 0x00000000)</p>
+            <br />
+            <p>Click anywhere to restart...</p>
+          </div>
+        </div>
+      )}
 
-      <Sidebar />
-
-      {/* Render Multiple Windows */}
-      <AnimatePresence>
-        {openApps.map((app, index) => (
-          <DetailView
-            key={app.id}
-            isOpen={true}
-            onClose={() => closeApp(app.id)}
-            title={app.title}
-            icon={app.icon}
-            initialX={window.innerWidth < 768 ? 5 + (index * 5) : 100 + (index * 30)}
-            initialY={window.innerWidth < 768 ? 5 + (index * 5) : 100 + (index * 30)}
-            isFocused={focusedAppId === app.id}
-            onFocus={() => {
-              setFocusedAppId(app.id);
-              setIsStartMenuOpen(false);
-            }}
-          >
-            {renderAppContent(app.id)}
-          </DetailView>
-        ))}
-      </AnimatePresence>
-
-      {/* Start Menu */}
-      <AnimatePresence>
-        {isStartMenuOpen && (
-          <motion.div
-            className="start-menu"
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="start-menu-main">
-              <div className="start-menu-left">
-                {desktopIcons.slice(0, 5).map(app => (
-                  <div key={app.id} className="start-menu-item" onClick={() => openApp(app)}>
-                    <div className="start-menu-item-icon">{app.icon}</div>
-                    <span className="start-menu-item-label">{app.label}</span>
-                  </div>
-                ))}
-                <div className="start-menu-separator" />
-                <div className="start-menu-item" onClick={() => window.open('https://github.com/deitussharrr', '_blank')}>
-                  <div className="start-menu-item-icon"><FiGithub /></div>
-                  <span className="start-menu-item-label">All Programs</span>
-                </div>
-              </div>
-              <div className="start-menu-right">
-                <div className="start-menu-item" onClick={() => openApp(desktopIcons[0])}>
-                  <div className="start-menu-item-icon">{desktopIcons[0].icon}</div>
-                  <span className="start-menu-item-label">Tusshar</span>
-                </div>
-                <div className="start-menu-item" onClick={() => openApp(desktopIcons[2])}>
-                  <div className="start-menu-item-icon">{desktopIcons[2].icon}</div>
-                  <span className="start-menu-item-label">Documents</span>
-                </div>
-                <div className="start-menu-separator" />
-                <div className="start-menu-item" onClick={() => window.location.href = 'mailto:tussharshibukumarharini@gmail.com'}>
-                  <div className="start-menu-item-icon"><FiMail className="text-blue-300" /></div>
-                  <span className="start-menu-item-label">Email Me</span>
-                </div>
-                <div className="start-menu-item" onClick={() => window.open('https://www.linkedin.com/in/tussharshibukumarharini', '_blank')}>
-                  <div className="start-menu-item-icon"><FiLinkedin className="text-blue-300" /></div>
-                  <span className="start-menu-item-label">LinkedIn</span>
-                </div>
-                <div className="start-menu-item" onClick={() => window.open('https://github.com/deitussharrr', '_blank')}>
-                  <div className="start-menu-item-icon"><FiGithub className="text-blue-300" /></div>
-                  <span className="start-menu-item-label">GitHub</span>
-                </div>
-                <div className="start-menu-separator" />
-                <div className="start-menu-item" onClick={() => openApp(desktopIcons[3])}>
-                  <div className="start-menu-item-icon">{desktopIcons[3].icon}</div>
-                  <span className="start-menu-item-label">Control Panel</span>
-                </div>
-                <div className="start-menu-item" onClick={() => openApp(desktopIcons[1])}>
-                  <div className="start-menu-item-icon">{desktopIcons[1].icon}</div>
-                  <span className="start-menu-item-label">Computer</span>
-                </div>
-              </div>
-            </div>
-            <div className="start-menu-footer">
-              <button className="power-button" title="Lock"><FiRotateCcw style={{ fontSize: '0.8rem' }} /></button>
-              <button className="power-button" title="Shut Down"><FiPower style={{ fontSize: '0.9rem', color: '#ff4d4d' }} /></button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <div className="vista-taskbar">
-        <motion.div
-          className="start-orb"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsStartMenuOpen(!isStartMenuOpen);
-          }}
-        >
-          <img src={startOrbImg} alt="Start" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-        </motion.div>
-
-        <div className="taskbar-items">
-          {openApps.map(app => (
-            <div
-              key={app.id}
-              className={`task-button ${focusedAppId === app.id ? 'active' : ''}`}
-              onClick={() => setFocusedAppId(app.id)}
-            >
-              <span className="text-lg">{app.icon}</span>
-              <span className="truncate max-w-[100px]">{app.label}</span>
-            </div>
+      <div className="desktop-surface" onClick={() => {
+        setSelectedIcon(null);
+        setIsStartMenuOpen(false);
+      }}>
+        <div className="desktop-icons-container">
+          {desktopIcons.map(icon => (
+            <DesktopIcon
+              key={icon.id}
+              {...icon}
+              isSelected={selectedIcon === icon.id}
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedIcon(icon.id);
+                setIsStartMenuOpen(false);
+              }}
+              onDoubleClick={(e) => {
+                e.stopPropagation();
+                openApp(icon);
+              }}
+            />
           ))}
-          {openApps.length === 0 && (
-            <div className="task-button" onClick={() => openApp(desktopIcons[2])}>
-              <FiFolder />
-              <span>Documents</span>
-            </div>
-          )}
         </div>
 
-        <div className="system-tray">
-          <div className="flex flex-col items-end">
-            <span>{currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-            <span className="text-[0.6rem] opacity-60">
-              {currentTime.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}
-            </span>
+        <Sidebar />
+
+        {/* Render Multiple Windows */}
+        <AnimatePresence>
+          {openApps.map((app, index) => (
+            <DetailView
+              key={app.id}
+              isOpen={true}
+              onClose={() => closeApp(app.id)}
+              title={app.title}
+              icon={app.icon}
+              initialX={window.innerWidth < 768 ? 5 + (index * 5) : 100 + (index * 30)}
+              initialY={window.innerWidth < 768 ? 5 + (index * 5) : 100 + (index * 30)}
+              isFocused={focusedAppId === app.id}
+              onFocus={() => {
+                setFocusedAppId(app.id);
+                setIsStartMenuOpen(false);
+              }}
+            >
+              {renderAppContent(app.id)}
+            </DetailView>
+          ))}
+        </AnimatePresence>
+
+        {/* Start Menu */}
+        <AnimatePresence>
+          {isStartMenuOpen && (
+            <motion.div
+              className="start-menu"
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="start-menu-main">
+                <div className="start-menu-left">
+                  {desktopIcons.slice(0, 5).map(app => (
+                    <div key={app.id} className="start-menu-item" onClick={() => openApp(app)}>
+                      <div className="start-menu-item-icon">{app.icon}</div>
+                      <span className="start-menu-item-label">{app.label}</span>
+                    </div>
+                  ))}
+                  <div className="start-menu-separator" />
+                  <div className="start-menu-item" onClick={() => window.open('https://github.com/deitussharrr', '_blank')}>
+                    <div className="start-menu-item-icon"><FiGithub /></div>
+                    <span className="start-menu-item-label">All Programs</span>
+                  </div>
+                </div>
+                <div className="start-menu-right">
+                  <div className="start-menu-item" onClick={() => openApp(desktopIcons[0])}>
+                    <div className="start-menu-item-icon">{desktopIcons[0].icon}</div>
+                    <span className="start-menu-item-label">Tusshar</span>
+                  </div>
+                  <div className="start-menu-item" onClick={() => openApp(desktopIcons[2])}>
+                    <div className="start-menu-item-icon">{desktopIcons[2].icon}</div>
+                    <span className="start-menu-item-label">Documents</span>
+                  </div>
+                  <div className="start-menu-separator" />
+                  <div className="start-menu-item" onClick={() => window.location.href = 'mailto:tussharshibukumarharini@gmail.com'}>
+                    <div className="start-menu-item-icon"><FiMail className="text-blue-300" /></div>
+                    <span className="start-menu-item-label">Email Me</span>
+                  </div>
+                  <div className="start-menu-item" onClick={() => window.open('https://www.linkedin.com/in/tussharshibukumarharini', '_blank')}>
+                    <div className="start-menu-item-icon"><FiLinkedin className="text-blue-300" /></div>
+                    <span className="start-menu-item-label">LinkedIn</span>
+                  </div>
+                  <div className="start-menu-item" onClick={() => window.open('https://github.com/deitussharrr', '_blank')}>
+                    <div className="start-menu-item-icon"><FiGithub className="text-blue-300" /></div>
+                    <span className="start-menu-item-label">GitHub</span>
+                  </div>
+                  <div className="start-menu-separator" />
+                  <div className="start-menu-item" onClick={() => openApp(desktopIcons[3])}>
+                    <div className="start-menu-item-icon">{desktopIcons[3].icon}</div>
+                    <span className="start-menu-item-label">Control Panel</span>
+                  </div>
+                  <div className="start-menu-item" onClick={() => openApp(desktopIcons[1])}>
+                    <div className="start-menu-item-icon">{desktopIcons[1].icon}</div>
+                    <span className="start-menu-item-label">Computer</span>
+                  </div>
+                </div>
+              </div>
+              <div className="start-menu-footer">
+                <button className="power-button" title="Lock"><FiRotateCcw style={{ fontSize: '0.8rem' }} /></button>
+                <button
+                  className="power-button"
+                  title="Shut Down"
+                  onClick={() => {
+                    setShutDownClicks(prev => prev + 1);
+                    if (shutDownClicks >= 2) {
+                      setIsBSOD(true);
+                    } else {
+                      alert("System shutdown blocked. Please save your work first.");
+                    }
+                  }}
+                >
+                  <FiPower style={{ fontSize: '0.9rem', color: '#ff4d4d' }} />
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <div className="vista-taskbar">
+          <motion.div
+            className="start-orb"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsStartMenuOpen(!isStartMenuOpen);
+            }}
+          >
+            <img src={startOrbImg} alt="Start" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+          </motion.div>
+
+          <div className="taskbar-items">
+            {openApps.map(app => (
+              <div
+                key={app.id}
+                className={`task-button ${focusedAppId === app.id ? 'active' : ''}`}
+                onClick={() => setFocusedAppId(app.id)}
+              >
+                <span className="text-lg">{app.icon}</span>
+                <span className="truncate max-w-[100px]">{app.label}</span>
+              </div>
+            ))}
+            {openApps.length === 0 && (
+              <div className="task-button" onClick={() => openApp(desktopIcons[2])}>
+                <FiFolder />
+                <span>Documents</span>
+              </div>
+            )}
           </div>
-          <div className="flex gap-2 text-lg opacity-80">
-            <FiGithub className="cursor-pointer hover:text-white" onClick={() => window.open('https://github.com/deitussharrr', '_blank')} />
-            <FiLinkedin className="cursor-pointer hover:text-white" onClick={() => window.open('https://www.linkedin.com/in/tussharshibukumarharini', '_blank')} />
+
+          <div className="system-tray">
+            <div className="flex flex-col items-end">
+              <span>{currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+              <span className="text-[0.6rem] opacity-60">
+                {currentTime.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}
+              </span>
+            </div>
+            <div className="flex gap-2 text-lg opacity-80">
+              <FiGithub className="cursor-pointer hover:text-white" onClick={() => window.open('https://github.com/deitussharrr', '_blank')} />
+              <FiLinkedin className="cursor-pointer hover:text-white" onClick={() => window.open('https://www.linkedin.com/in/tussharshibukumarharini', '_blank')} />
+            </div>
           </div>
         </div>
       </div>

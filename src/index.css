@@ -593,3 +593,38 @@ body {
     font-size: 1.2rem;
   }
 }
+
+/* Easter Eggs */
+.matrix-mode {
+  filter: hue-rotate(90deg) brightness(1.2) contrast(1.2);
+  transition: filter 1s ease;
+}
+
+.bsod-container {
+  position: fixed;
+  inset: 0;
+  background: #0000aa;
+  color: white;
+  font-family: 'Lucida Console', Monaco, monospace;
+  padding: 50px;
+  z-index: 9999;
+  cursor: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+}
+
+.bsod-content {
+  max-width: 800px;
+}
+
+.bsod-title {
+  background: white;
+  color: #0000aa;
+  padding: 0 10px;
+  margin-bottom: 20px;
+  display: inline-block;
+  font-weight: bold;
+}
