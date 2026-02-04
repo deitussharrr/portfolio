@@ -3,7 +3,10 @@ import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import { FiX, FiMinus, FiSquare } from 'react-icons/fi';
 
 const AeroWindow = ({ isOpen, onClose, title, children, icon, initialX = 100, initialY = 100, isFocused, onFocus }) => {
-    const [size, setSize] = useState({ width: 800, height: 600 });
+    const [size, setSize] = useState({
+        width: typeof window !== 'undefined' && window.innerWidth < 768 ? window.innerWidth - 20 : 800,
+        height: typeof window !== 'undefined' && window.innerHeight < 768 ? window.innerHeight - 100 : 600
+    });
     const [isMaximized, setIsMaximized] = useState(false);
     const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
     const dragControls = useDragControls();
@@ -14,7 +17,7 @@ const AeroWindow = ({ isOpen, onClose, title, children, icon, initialX = 100, in
         const handleResize = () => {
             const mobile = window.innerWidth < 768;
             setIsMobile(mobile);
-            if (mobile) setIsMaximized(true);
+            // Don't force maximize anymore, let the user move it
         };
         window.addEventListener('resize', handleResize);
         handleResize(); // Initial check

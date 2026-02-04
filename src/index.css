@@ -360,11 +360,15 @@ body {
 
 .aero-title-bar {
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
-  padding: 8px 12px;
+  padding: 12px 16px;
   display: flex;
   align-items: center;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
+  touch-action: none;
+  /* Essential for mobile dragging */
+  min-height: 48px;
+  /* Better touch target */
 }
 
 .window-controls {
@@ -567,6 +571,18 @@ body {
     border-radius: 0 !important;
     border: none !important;
     box-shadow: none !important;
+  }
+
+  .window-control {
+    width: 48px;
+    /* Extra large for mobile fingers */
+    height: 38px;
+    font-size: 1.2rem;
+  }
+
+  .aero-title-bar {
+    padding: 0 5px 0 15px;
+    /* More space for the title on the left */
   }
 
   .resume-section {

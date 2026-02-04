@@ -463,8 +463,8 @@ function App() {
             onClose={() => closeApp(app.id)}
             title={app.title}
             icon={app.icon}
-            initialX={100 + (index * 30)}
-            initialY={100 + (index * 30)}
+            initialX={window.innerWidth < 768 ? 5 + (index * 5) : 100 + (index * 30)}
+            initialY={window.innerWidth < 768 ? 5 + (index * 5) : 100 + (index * 30)}
             isFocused={focusedAppId === app.id}
             onFocus={() => {
               setFocusedAppId(app.id);
