@@ -180,6 +180,130 @@ body {
   filter: drop-shadow(0 0 15px rgba(0, 180, 216, 0.8));
 }
 
+/* Start Menu */
+.start-menu {
+  position: fixed;
+  bottom: 40px;
+  left: 5px;
+  width: 380px;
+  height: 520px;
+  background: rgba(20, 40, 60, 0.85);
+  backdrop-filter: blur(30px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.start-menu-main {
+  flex: 1;
+  display: flex;
+  padding: 10px;
+}
+
+.start-menu-left {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 4px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.start-menu-right {
+  width: 140px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.start-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.start-menu-left .start-menu-item {
+  color: #333;
+}
+
+.start-menu-left .start-menu-item:hover {
+  background: linear-gradient(to bottom, #dbeafe 0%, #bfdbfe 100%);
+  color: #1e40af;
+}
+
+.start-menu-right .start-menu-item {
+  color: white;
+  padding: 8px 10px;
+}
+
+.start-menu-right .start-menu-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+.start-menu-footer {
+  height: 45px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 15px;
+  gap: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.start-menu-item-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.start-menu-item-label {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.start-menu-separator {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.05);
+  margin: 5px 10px;
+}
+
+.start-menu-right .start-menu-separator {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.power-button {
+  width: 32px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.power-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
 .taskbar-items {
   display: flex;
   gap: 1px;

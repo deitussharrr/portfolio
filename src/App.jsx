@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiLinkedin, FiGithub, FiUser, FiCode,
-  FiAward, FiFolder, FiTrash2, FiMonitor, FiInfo, FiActivity
+  FiAward, FiFolder, FiTrash2, FiMonitor, FiInfo, FiActivity,
+  FiMail, FiPower, FiRotateCcw
 } from 'react-icons/fi';
 import DesktopIcon from './components/DesktopIcon';
 import Sidebar from './components/Sidebar';
@@ -21,6 +22,7 @@ function App() {
   const [focusedAppId, setFocusedAppId] = useState(null);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [selectedIcon, setSelectedIcon] = useState(null);
+  const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -32,6 +34,7 @@ function App() {
       setOpenApps([...openApps, app]);
     }
     setFocusedAppId(app.id);
+    setIsStartMenuOpen(false);
   };
 
   const closeApp = (id) => {
@@ -131,16 +134,26 @@ function App() {
 
                 <section className="resume-section">
                   <h3 className="resume-heading text-lg">Languages</h3>
-                  <div className="space-y-2">
+                  <div className="space-y-4">
                     {[
-                      { l: "English", v: "Fluent" },
-                      { l: "Tamil", v: "Native" },
-                      { l: "Malayalam", v: "Native" },
-                      { l: "Spanish", v: "Elementary" }
+                      { l: "English", v: "Fluent", p: 95 },
+                      { l: "Tamil", v: "Native", p: 100 },
+                      { l: "Malayalam", v: "Native", p: 100 },
+                      { l: "Spanish", v: "Elementary", p: 30 }
                     ].map(lang => (
-                      <div key={lang.l} className="flex justify-between text-sm py-1 border-b border-white/5">
-                        <span className="opacity-60">{lang.l}</span>
-                        <span className="font-semibold text-blue-300">{lang.v}</span>
+                      <div key={lang.l} className="space-y-1">
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="opacity-70 font-medium">{lang.l}</span>
+                          <span className="text-blue-300 font-bold">{lang.v}</span>
+                        </div>
+                        <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${lang.p}%` }}
+                            transition={{ duration: 1, delay: 0.5 }}
+                            className="h-full bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.3)]"
+                          />
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -404,7 +417,10 @@ function App() {
   };
 
   return (
-    <div className="desktop-surface" onClick={() => setSelectedIcon(null)}>
+    <div className="desktop-surface" onClick={() => {
+      setSelectedIcon(null);
+      setIsStartMenuOpen(false);
+    }}>
       <div className="desktop-icons-container">
         {desktopIcons.map(icon => (
           <DesktopIcon
@@ -414,6 +430,7 @@ function App() {
             onClick={(e) => {
               e.stopPropagation();
               setSelectedIcon(icon.id);
+              setIsStartMenuOpen(false);
             }}
             onDoubleClick={(e) => {
               e.stopPropagation();
@@ -437,15 +454,92 @@ function App() {
             initialX={100 + (index * 30)}
             initialY={100 + (index * 30)}
             isFocused={focusedAppId === app.id}
-            onFocus={() => setFocusedAppId(app.id)}
+            onFocus={() => {
+              setFocusedAppId(app.id);
+              setIsStartMenuOpen(false);
+            }}
           >
             {renderAppContent(app.id)}
           </DetailView>
         ))}
       </AnimatePresence>
 
+      {/* Start Menu */}
+      <AnimatePresence>
+        {isStartMenuOpen && (
+          <motion.div
+            className="start-menu"
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="start-menu-main">
+              <div className="start-menu-left">
+                {desktopIcons.slice(0, 5).map(app => (
+                  <div key={app.id} className="start-menu-item" onClick={() => openApp(app)}>
+                    <div className="start-menu-item-icon">{app.icon}</div>
+                    <span className="start-menu-item-label">{app.label}</span>
+                  </div>
+                ))}
+                <div className="start-menu-separator" />
+                <div className="start-menu-item" onClick={() => window.open('https://github.com/deitussharrr', '_blank')}>
+                  <div className="start-menu-item-icon"><FiGithub /></div>
+                  <span className="start-menu-item-label">All Programs</span>
+                </div>
+              </div>
+              <div className="start-menu-right">
+                <div className="start-menu-item" onClick={() => openApp(desktopIcons[0])}>
+                  <div className="start-menu-item-icon">{desktopIcons[0].icon}</div>
+                  <span className="start-menu-item-label">Tusshar</span>
+                </div>
+                <div className="start-menu-item" onClick={() => openApp(desktopIcons[2])}>
+                  <div className="start-menu-item-icon">{desktopIcons[2].icon}</div>
+                  <span className="start-menu-item-label">Documents</span>
+                </div>
+                <div className="start-menu-separator" />
+                <div className="start-menu-item" onClick={() => window.location.href = 'mailto:tussharshibukumarharini@gmail.com'}>
+                  <div className="start-menu-item-icon"><FiMail className="text-blue-300" /></div>
+                  <span className="start-menu-item-label">Email Me</span>
+                </div>
+                <div className="start-menu-item" onClick={() => window.open('https://linkedin.com/in/tussharshibukumar', '_blank')}>
+                  <div className="start-menu-item-icon"><FiLinkedin className="text-blue-300" /></div>
+                  <span className="start-menu-item-label">LinkedIn</span>
+                </div>
+                <div className="start-menu-item" onClick={() => window.open('https://github.com/deitussharrr', '_blank')}>
+                  <div className="start-menu-item-icon"><FiGithub className="text-blue-300" /></div>
+                  <span className="start-menu-item-label">GitHub</span>
+                </div>
+                <div className="start-menu-separator" />
+                <div className="start-menu-item" onClick={() => openApp(desktopIcons[3])}>
+                  <div className="start-menu-item-icon">{desktopIcons[3].icon}</div>
+                  <span className="start-menu-item-label">Control Panel</span>
+                </div>
+                <div className="start-menu-item" onClick={() => openApp(desktopIcons[1])}>
+                  <div className="start-menu-item-icon">{desktopIcons[1].icon}</div>
+                  <span className="start-menu-item-label">Computer</span>
+                </div>
+              </div>
+            </div>
+            <div className="start-menu-footer">
+              <button className="power-button" title="Lock"><FiRotateCcw style={{ fontSize: '0.8rem' }} /></button>
+              <button className="power-button" title="Shut Down"><FiPower style={{ fontSize: '0.9rem', color: '#ff4d4d' }} /></button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="vista-taskbar">
-        <motion.div className="start-orb" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+        <motion.div
+          className="start-orb"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsStartMenuOpen(!isStartMenuOpen);
+          }}
+        >
           <img src={startOrbImg} alt="Start" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         </motion.div>
 
