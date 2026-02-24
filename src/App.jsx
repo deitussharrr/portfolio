@@ -3,11 +3,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiLinkedin, FiGithub, FiUser, FiCode,
   FiAward, FiFolder, FiTrash2, FiMonitor, FiInfo, FiActivity,
-  FiMail, FiPower, FiRotateCcw, FiGlobe, FiCheckCircle, FiExternalLink
+  FiMail, FiPower, FiRotateCcw, FiGlobe, FiCheckCircle, FiExternalLink, FiSend
 } from 'react-icons/fi';
 import DesktopIcon from './components/DesktopIcon';
 import Sidebar from './components/Sidebar';
 import DetailView from './components/DetailView';
+import Contact from './components/Contact';
 import profileImg from './assets/profile.jpg';
 import startOrbImg from './assets/start-orb.png';
 import userIcon from './assets/vista-user.png';
@@ -138,6 +139,7 @@ function App() {
     { id: 'experience', label: 'Documents', icon: <img src={docsIcon} alt="" className="vista-icon-img" />, title: 'Work Experience' },
     { id: 'skills', label: 'Control Panel', icon: <img src={controlIcon} alt="" className="vista-icon-img" />, title: 'Technical Arsenal' },
     { id: 'education', label: 'History', icon: <img src={historyIcon} alt="" className="vista-icon-img" />, title: 'Education' },
+    { id: 'contact', label: 'Contact', icon: <FiMail className="text-4xl text-blue-300" />, title: 'Reach Out' },
     { id: 'recycle', label: 'Recycle Bin', icon: <img src={recycleIcon} alt="" className="vista-icon-img" />, title: 'Recycle Bin' },
   ];
 
@@ -531,6 +533,9 @@ function App() {
             </div>
           </div>
         );
+
+      case 'contact':
+        return <Contact />;
 
       case 'recycle':
         return (
