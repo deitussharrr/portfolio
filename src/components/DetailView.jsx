@@ -105,35 +105,44 @@ const AeroWindow = ({ isOpen, onClose, onMinimize, title, children, icon, initia
                 onDoubleClick={() => setIsMaximized(!isMaximized)}
             >
                 <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <div style={{ width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{icon}</div>
-                    <span style={{ fontSize: '0.85rem', fontWeight: 500, textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>{title}</span>
+                    <div className="window-controls">
+                        <button
+                            className="window-control window-minimize"
+                            title="Minimize"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onMinimize();
+                            }}
+                        >
+                            <FiMinus />
+                        </button>
+                        <button
+                            className="window-control window-maximize"
+                            title={isMaximized ? "Restore" : "Maximize"}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setIsMaximized(!isMaximized);
+                            }}
+                        >
+                            <FiSquare />
+                        </button>
+                        <button
+                            className="window-control close window-close"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onClose();
+                            }}
+                            title="Close"
+                        >
+                            <FiX />
+                        </button>
+                    </div>
                 </div>
-                <div className="window-controls">
-                    <button
-                        className="window-control"
-                        title="Minimize"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onMinimize();
-                        }}
-                    >
-                        <FiMinus />
-                    </button>
-                    <button
-                        className="window-control"
-                        title={isMaximized ? "Restore" : "Maximize"}
-                        onClick={() => setIsMaximized(!isMaximized)}
-                    >
-                        <FiSquare style={{ fontSize: '0.7rem' }} />
-                    </button>
-                    <button
-                        className="window-control close"
-                        onClick={onClose}
-                        title="Close"
-                    >
-                        <FiX />
-                    </button>
+                <div className="window-title">
+                    <span className="window-title-icon">{icon}</span>
+                    <span>{title}</span>
                 </div>
+                <span className="window-state">PORTFOLIO APP</span>
             </div>
 
             {/* Window Content */}
