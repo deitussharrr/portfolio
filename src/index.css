@@ -25,8 +25,8 @@ a { color: inherit; text-decoration: none; }
 .welcome-actions button { border: 1px solid rgba(192,233,247,.42); border-radius: 9px; padding: 9px 12px; display: inline-flex; align-items: center; gap: 7px; cursor: pointer; color: #f1fbff; background: linear-gradient(135deg, rgba(91,177,207,.42), rgba(0,71,105,.52)); font-size: .7rem; }
 .welcome-actions button:hover { background: linear-gradient(135deg, rgba(126,208,233,.55), rgba(0,88,125,.62)); transform: translateY(-1px); }
 .welcome-actions button.secondary { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.12); }
-.welcome-metrics { min-width: 118px; align-self: center; display: grid; gap: 9px; position: relative; z-index: 1; }
-.welcome-metrics div { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; border-bottom: 1px solid rgba(255,255,255,.1); padding-bottom: 8px; }
+.welcome-metrics { width: 100%; min-width: 0; align-self: center; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; position: relative; z-index: 1; text-align: center; }
+.welcome-metrics div { width: 100%; min-width: 0; display: grid; justify-items: center; align-items: center; gap: 3px; border-bottom: 0; padding-bottom: 0; text-align: center; }
 .welcome-metrics strong { color: #c4efff; font: 700 1.25rem "Space Mono", monospace; }
 .welcome-metrics span { color: #88a8b7; font-size: .62rem; }
 
@@ -101,7 +101,7 @@ h2, h3, p { margin: 0; } h2 { font-size: 1.6rem; margin-top: 6px; } h3 { font-si
 .contact-link { display: flex; align-items: center; gap: 10px; padding: 13px; border-radius: 9px; background: rgba(255,255,255,.05); color: #abdef2; font-size: .82rem; } .contact-link:hover { background: rgba(125,215,255,.12); }
 .terminal-app { height: 100%; min-height: 460px; display: flex; flex-direction: column; justify-content: space-between; padding: 12px; background: #06110d; color: #94f3b3; font: .75rem "Space Mono", monospace; } .terminal-output { white-space: pre-wrap; line-height: 1.8; overflow: auto; } .terminal-form { display: flex; gap: 8px; border-top: 1px solid #27683d; padding-top: 12px; } .terminal-form input { flex: 1; border: 0; outline: 0; color: inherit; background: transparent; font: inherit; }
 
-@media (max-width: 700px) {
+@media (max-width: 767px) {
   .desktop-icons-container { grid-template-columns: repeat(3, 82px); grid-auto-rows: 88px; gap: 3px; padding: 50px 8px 16px; } .desktop-icon { width: 82px; font-size: .62rem; } .desktop-icon-image { width: 34px; height: 34px; }
   .desktop-welcome { left: 12px; right: 12px; bottom: 10px; top: auto; width: auto; transform: none; display: block; padding: 20px; border-radius: 18px; } .welcome-copy h1 { font-size: 1.3rem; } .welcome-copy p { font-size: .74rem; } .welcome-metrics { grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 20px; } .welcome-metrics div { display: grid; gap: 3px; border: 0; padding: 0; } .welcome-metrics strong { font-size: 1rem; } .welcome-metrics span { font-size: .55rem; }
   .taskbar-modern { gap: 5px; padding: 6px; } .start-button { padding: 0 8px; } .start-button span, .taskbar-search span, .taskbar-apps button span { display: none; } .taskbar-search { width: 42px; justify-content: center; padding: 0; } .taskbar-apps button { width: 42px; justify-content: center; padding: 0; } .system-tray-modern { margin-left: auto; padding-left: 7px; }
@@ -109,7 +109,7 @@ h2, h3, p { margin: 0; } h2 { font-size: 1.6rem; margin-top: 6px; } h3 { font-si
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 
-@media (max-width: 700px) {
+@media (max-width: 767px) {
   html, body, #root { width: 100%; height: 100%; min-height: 100%; overflow: hidden; overscroll-behavior: none; }
   body { background: #061b2c; position: fixed; inset: 0; }
   .os-shell { width: 100%; height: 100svh; min-height: 0; overflow: hidden; }
@@ -127,17 +127,18 @@ h2, h3, p { margin: 0; } h2 { font-size: 1.6rem; margin-top: 6px; } h3 { font-si
   .desktop-icons-container { position: relative; z-index: 1; width: 100%; grid-template-columns: repeat(4, minmax(58px, 1fr)); grid-auto-rows: 84px; gap: 7px 4px; padding: 52px 14px 130px; }
   .desktop-icon { width: 100%; min-height: 78px; border-radius: 16px; gap: 7px; font-size: .62rem; text-shadow: 0 2px 5px #001; }
   .desktop-icon-image { width: 42px; height: 42px; border-radius: 14px; font-size: 1.25rem; box-shadow: 0 7px 18px rgba(0,0,0,.3); }
-  .desktop-welcome { z-index: 6001; left: 50%; right: auto; top: auto; bottom: 140px; width: min(340px, calc(100vw - 32px)); max-height: none; overflow: hidden; transform: translateX(-50%); display: block; padding: 18px 18px 16px; border-radius: 24px; background: rgba(0, 35, 58, .94); border-color: rgba(221,244,252,.38); box-shadow: 0 24px 70px rgba(0,0,0,.55), 0 0 0 100vmax rgba(0,10,22,.12); backdrop-filter: blur(24px) saturate(125%); animation: mobile-welcome-rise .45s cubic-bezier(.2,.8,.2,1); }
+  .desktop-welcome { z-index: 6001; left: 16px; right: 16px; top: auto; bottom: 140px; width: auto; max-height: none; overflow: hidden; transform: none; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 18px 18px 16px; border-radius: 24px; background: rgba(0, 35, 58, .94); border-color: rgba(221,244,252,.38); box-shadow: 0 24px 70px rgba(0,0,0,.55), 0 0 0 100vmax rgba(0,10,22,.12); backdrop-filter: blur(24px) saturate(125%); animation: mobile-welcome-rise .45s cubic-bezier(.2,.8,.2,1); }
   .desktop-welcome::before { content: ""; display: block; width: 34px; height: 4px; margin: -10px auto 18px; border-radius: 99px; background: rgba(218,243,250,.3); }
   .desktop-welcome::after { width: 120px; height: 120px; right: -35px; bottom: -50px; }
-  .welcome-copy { max-width: none; text-align: center; }
+  .welcome-copy { width: 100%; max-width: none; margin-inline: auto; text-align: center; }
+  .welcome-copy h1, .welcome-copy p, .welcome-metrics, .welcome-metrics div, .welcome-metrics span { text-align: center; }
   .welcome-copy .eyebrow { font-size: .58rem; }
   .welcome-copy h1 { margin: 8px 0; font-size: 1.2rem; line-height: 1.2; }
   .welcome-copy p { font-size: .72rem; line-height: 1.55; }
-  .welcome-actions { justify-content: center; margin-top: 16px; }
+  .welcome-actions { width: 100%; justify-content: center; margin: 16px auto 0; }
   .welcome-actions button { padding: 9px 10px; font-size: .65rem; }
-  .welcome-metrics { width: 100%; min-width: 0; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 19px auto 0; justify-content: center; justify-items: stretch; align-items: center; text-align: center; }
-  .welcome-metrics div { width: 100%; display: grid; justify-items: center; align-items: center; gap: 3px; border: 0; padding: 0; text-align: center; }
+  .welcome-metrics { position: static; left: auto; width: 100%; min-width: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin: 19px auto 0; transform: none; justify-content: stretch; align-items: stretch; text-align: center; }
+  .welcome-metrics div { width: auto; min-width: 0; display: grid; justify-items: center; align-items: center; gap: 3px; border: 0; padding: 0; text-align: center; }
   .welcome-metrics strong { font-size: 1rem; }
   .welcome-metrics span { font-size: .55rem; }
   .taskbar-modern { height: 126px; bottom: 0; z-index: 5000; isolation: isolate; pointer-events: auto; justify-content: center; gap: 8px; padding: 8px 14px 58px; background: linear-gradient(180deg, rgba(0,24,42,.05), rgba(0,17,31,.72)); border-top: 0; backdrop-filter: blur(22px); }
@@ -170,6 +171,6 @@ h2, h3, p { margin: 0; } h2 { font-size: 1.6rem; margin-top: 6px; } h3 { font-si
 }
 
 @keyframes mobile-welcome-rise {
-  from { opacity: 0; transform: translate(-50%, 28px); }
-  to { opacity: 1; transform: translateX(-50%); }
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
 }
