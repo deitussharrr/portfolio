@@ -170,6 +170,41 @@ h2, h3, p { margin: 0; } h2 { font-size: 1.6rem; margin-top: 6px; } h3 { font-si
   .search-overlay { padding-top: 48px; align-items: flex-start; }
 }
 
+@media (max-width: 767px) {
+  /* Keep the phone renderer on a lightweight compositing path. */
+  .desktop-surface,
+  .desktop-surface::before,
+  .desktop-surface::after,
+  .desktop-welcome,
+  .taskbar-modern,
+  .start-menu-modern,
+  .mobile-recents-panel,
+  .aero-glass {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  .desktop-welcome::after,
+  .ambient-grid {
+    display: none;
+  }
+  .desktop-welcome,
+  .taskbar-modern,
+  .mobile-recents-panel,
+  .aero-glass {
+    box-shadow: 0 8px 24px rgba(0,0,0,.28) !important;
+  }
+  .desktop-icon-image,
+  .taskbar-apps button svg {
+    filter: none !important;
+  }
+  .mobile-welcome-rise {
+    animation: none !important;
+  }
+  .window-animate {
+    transition: none !important;
+  }
+}
+
 @keyframes mobile-welcome-rise {
   from { opacity: 0; transform: translateY(28px); }
   to { opacity: 1; transform: translateY(0); }
