@@ -140,7 +140,7 @@ h2, h3, p { margin: 0; } h2 { font-size: 1.6rem; margin-top: 6px; } h3 { font-si
   .welcome-metrics div { width: 100%; display: grid; justify-items: center; align-items: center; gap: 3px; border: 0; padding: 0; text-align: center; }
   .welcome-metrics strong { font-size: 1rem; }
   .welcome-metrics span { font-size: .55rem; }
-  .taskbar-modern { height: 126px; bottom: 0; z-index: 5000; justify-content: center; gap: 8px; padding: 8px 14px 58px; background: linear-gradient(180deg, rgba(0,24,42,.05), rgba(0,17,31,.72)); border-top: 0; backdrop-filter: blur(22px); }
+  .taskbar-modern { height: 126px; bottom: 0; z-index: 5000; isolation: isolate; pointer-events: auto; justify-content: center; gap: 8px; padding: 8px 14px 58px; background: linear-gradient(180deg, rgba(0,24,42,.05), rgba(0,17,31,.72)); border-top: 0; backdrop-filter: blur(22px); }
   .taskbar-modern::before { content: ""; position: absolute; left: 50%; bottom: 48px; width: min(360px, calc(100vw - 28px)); height: 58px; transform: translateX(-50%); border: 1px solid rgba(207,239,247,.2); border-radius: 22px; background: rgba(0, 42, 67, .72); box-shadow: 0 10px 35px rgba(0,0,0,.3), inset 0 1px rgba(255,255,255,.08); }
   .taskbar-modern > * { position: relative; z-index: 1; }
   .start-button, .taskbar-search, .taskbar-apps button { width: 42px; height: 42px; padding: 0; justify-content: center; border-radius: 14px; }
@@ -157,8 +157,8 @@ h2, h3, p { margin: 0; } h2 { font-size: 1.6rem; margin-top: 6px; } h3 { font-si
   .taskbar-modern.mobile-recents-open .taskbar-apps { display: flex; }
   .taskbar-modern.mobile-recents-open::before { display: none; }
   .taskbar-modern.mobile-recents-open .taskbar-apps { display: none; }
-  .mobile-nav { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); display: flex; align-items: center; justify-content: space-around; width: min(230px, 72vw); height: 42px; padding: 0 8px; }
-  .mobile-nav button { width: 48px; height: 40px; display: grid; place-items: center; border: 0; border-radius: 12px; color: #d6f3fc; background: transparent; }
+  .mobile-nav { position: fixed; left: 50%; bottom: 0; z-index: 10000; transform: translateX(-50%); display: flex; align-items: center; justify-content: space-around; width: min(280px, 86vw); height: 54px; padding: 0 14px; pointer-events: auto; }
+  .mobile-nav button { width: 64px; height: 50px; display: grid; place-items: center; border: 0; border-radius: 14px; color: #d6f3fc; background: transparent; pointer-events: auto; touch-action: manipulation; }
   .mobile-nav button:active { background: rgba(123,207,232,.22); }
   .mobile-nav svg { font-size: 1.15rem; }
   .window-controls { display: flex; }
