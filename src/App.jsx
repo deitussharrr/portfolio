@@ -3,7 +3,7 @@ import { AnimatePresence } from 'framer-motion';
 import {
   FiAward, FiBookOpen, FiCode, FiCpu, FiExternalLink, FiFolder, FiGithub,
   FiHardDrive, FiLinkedin, FiMail, FiMessageSquare, FiMonitor, FiPower, FiSearch, FiTerminal,
-  FiUser, FiUsers, FiX
+  FiUser, FiUsers, FiX, FiArrowLeft, FiCircle, FiLayers
 } from 'react-icons/fi';
 import DetailView from './components/DetailView';
 import profileImg from './assets/profile.jpg';
@@ -43,6 +43,7 @@ function App() {
   const [time, setTime] = useState(new Date());
   const [terminalLines, setTerminalLines] = useState(['TussharOS Terminal [Portfolio Edition]', 'Type "help" to see available commands.']);
   const [terminalInput, setTerminalInput] = useState('');
+  const [mobileRecents, setMobileRecents] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
@@ -57,7 +58,7 @@ function App() {
 
   const launch = (app) => {
     setOpenApps(current => current.some(item => item.id === app.id) ? current.map(item => item.id === app.id ? { ...item, minimized: false } : item) : [...current, { ...app, minimized: false }]);
-    setFocused(app.id); setStartOpen(false); setSearchOpen(false);
+    setFocused(app.id); setStartOpen(false); setSearchOpen(false); setMobileRecents(false);
   };
   const close = (id) => { setOpenApps(current => current.filter(item => item.id !== id)); setFocused(current => current === id ? null : current); };
   const minimize = (id) => { setOpenApps(current => current.map(item => item.id === id ? { ...item, minimized: true } : item)); setFocused(null); };
@@ -130,7 +131,7 @@ function App() {
       <AnimatePresence>{startOpen && <aside className="start-menu-modern" onClick={event => event.stopPropagation()}><div className="start-profile"><img src={profileImg} alt="" /><div><strong>{profile.name}</strong><small>{profile.title}</small></div></div><button className="launcher-search" onClick={() => setSearchOpen(true)}><FiSearch /> Search portfolio <kbd>Ctrl K</kbd></button><span className="eyebrow">PINNED</span><div className="launcher-grid">{apps.map(app => <button key={app.id} onClick={() => launch(app)}><span>{iconMap[app.id]}</span>{app.label}</button>)}</div><div className="start-footer"><span>TussharOS Portfolio Edition</span><FiPower /></div></aside>}</AnimatePresence>
       <AnimatePresence>{searchOpen && <div className="search-overlay" onClick={event => event.stopPropagation()}><div className="global-search"><div className="search-input"><FiSearch /><input autoFocus placeholder="Search certifications, skills, experience…" value={query} onChange={event => setQuery(event.target.value)} /><button onClick={() => setSearchOpen(false)} aria-label="Close search"><FiX /></button></div>{query && <div className="search-results">{results.length ? results.map((item, index) => <button key={`${item.type}-${item.title}-${index}`} onClick={() => { launch(apps.find(app => app.id === item.type.toLowerCase()) || apps.find(app => app.id === (item.type === 'Certification' ? 'certifications' : item.type === 'Skill' ? 'skills' : item.type === 'Project' ? 'projects' : item.type.toLowerCase()))); }}><span className="result-type">{item.type}</span><strong>{item.title}</strong><small>{item.issuer}</small></button>) : <p className="muted">No indexed records found.</p>}</div>}</div></div>}</AnimatePresence>
     </main>
-    <footer className="taskbar-modern"><button className="start-button" onClick={event => { event.stopPropagation(); setStartOpen(value => !value); }}><img src={startOrbImg} alt="Open start menu" /><span>Start</span></button><button className="taskbar-search" onClick={() => setSearchOpen(true)}><FiSearch /> <span>Search portfolio</span></button><div className="taskbar-apps">{openApps.map(app => <button className={focused === app.id && !app.minimized ? 'active' : ''} key={app.id} onClick={() => toggleTask(app.id)}>{iconMap[app.id]}<span>{app.label}</span></button>)}</div><div className="system-tray-modern"><FiHardDrive /><span>{time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}<small>{time.toLocaleDateString([], { month: 'short', day: 'numeric' })}</small></span></div><span className="mobile-home-indicator" /></footer>
+    <footer className={`taskbar-modern${mobileRecents ? ' mobile-recents-open' : ''}`}><button className="start-button" onClick={event => { event.stopPropagation(); setStartOpen(value => !value); }}><img src={startOrbImg} alt="Open start menu" /><span>Start</span></button><button className="taskbar-search" onClick={() => setSearchOpen(true)}><FiSearch /> <span>Search portfolio</span></button><div className="taskbar-apps">{(openApps.length ? openApps : desktopApps.slice(0, 4)).map(app => <button className={focused === app.id && !app.minimized ? 'active' : ''} key={app.id} onClick={() => openApps.length ? toggleTask(app.id) : launch(app)}>{iconMap[app.id]}<span>{app.label}</span></button>)}</div><div className="system-tray-modern"><FiHardDrive /><span>{time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}<small>{time.toLocaleDateString([], { month: 'short', day: 'numeric' })}</small></span></div><nav className="mobile-nav" aria-label="Android navigation"><button aria-label="Recents" onClick={() => setMobileRecents(value => !value)}><FiLayers /></button><button aria-label="Home" onClick={() => { setOpenApps([]); setFocused(null); setStartOpen(false); setSearchOpen(false); setMobileRecents(false); }}><FiCircle /></button><button aria-label="Back" onClick={() => { if (focused) close(focused); setMobileRecents(false); }}><FiArrowLeft /></button></nav><span className="mobile-home-indicator" /></footer>
   </div>;
 }
 
