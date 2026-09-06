@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import {
   FiAward, FiBookOpen, FiCode, FiCpu, FiExternalLink, FiFolder, FiGithub,
-  FiHardDrive, FiLinkedin, FiMail, FiMonitor, FiPower, FiSearch, FiTerminal,
+  FiHardDrive, FiLinkedin, FiMail, FiMessageSquare, FiMonitor, FiPower, FiSearch, FiTerminal,
   FiUser, FiUsers, FiX
 } from 'react-icons/fi';
 import DetailView from './components/DetailView';
