@@ -70,15 +70,15 @@ const AeroWindow = ({ isOpen, onClose, onMinimize, title, children, icon, initia
             animate={{
                 opacity: 1,
                 scale: 1,
-                width: isMaximized ? '100vw' : size.width,
-                height: isMaximized ? 'calc(100vh - 40px)' : size.height,
-                x: isMaximized ? 0 : initialX,
-                y: isMaximized ? 0 : initialY,
+                width: isMobile || isMaximized ? '100vw' : size.width,
+                height: isMobile ? 'calc(100svh - 76px)' : (isMaximized ? 'calc(100vh - 40px)' : size.height),
+                x: isMobile || isMaximized ? 0 : initialX,
+                y: isMobile || isMaximized ? 0 : initialY,
                 zIndex: isFocused ? 3000 : 2000
             }}
             exit={{ opacity: 0, scale: 0.95, y: 100 }}
             whileDrag={{ scale: 1.02, opacity: 0.9 }}
-            drag={!isMaximized}
+            drag={!isMaximized && !isMobile}
             dragControls={dragControls}
             dragListener={false}
             dragMomentum={false}
@@ -100,9 +100,9 @@ const AeroWindow = ({ isOpen, onClose, onMinimize, title, children, icon, initia
             {/* Title Bar - Draggable Area */}
             <div
                 className="aero-title-bar"
-                onPointerDown={(e) => dragControls.start(e)}
-                style={{ cursor: isMaximized ? 'default' : 'move', userSelect: 'none' }}
-                onDoubleClick={() => setIsMaximized(!isMaximized)}
+                onPointerDown={(e) => { if (!isMobile && !isMaximized) dragControls.start(e); }}
+                style={{ cursor: isMobile || isMaximized ? 'default' : 'move', userSelect: 'none' }}
+                onDoubleClick={() => { if (!isMobile) setIsMaximized(!isMaximized); }}
             >
                 <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <div className="window-controls">
@@ -160,7 +160,7 @@ const AeroWindow = ({ isOpen, onClose, onMinimize, title, children, icon, initia
             </div>
 
             {/* Resize Handle */}
-            {!isMaximized && (
+            {!isMaximized && !isMobile && (
                 <div
                     onMouseDown={startResizing}
                     style={{
