@@ -114,6 +114,13 @@ h2, h3, p { margin: 0; } h2 { font-size: 1.6rem; margin-top: 6px; } h3 { font-si
   body { background: #061b2c; position: fixed; inset: 0; }
   .os-shell { width: 100%; height: 100svh; min-height: 0; overflow: hidden; }
   .desktop-surface { width: 100%; height: 100svh; min-height: 0; overflow: hidden; background-position: center; overscroll-behavior: none; }
+  .desktop-surface.mobile-recents-mode { background: #061b2c; }
+  .desktop-surface.mobile-recents-mode > *:not(.mobile-recents-panel) { display: none; }
+  .mobile-recents-panel { position: absolute; inset: 48px 16px 140px; z-index: 20; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; gap: 14px; padding: 18px; border: 1px solid rgba(207,239,247,.2); border-radius: 24px; background: rgba(0, 32, 54, .84); box-shadow: 0 18px 50px rgba(0,0,0,.36); }
+  .mobile-recents-panel > .eyebrow, .mobile-recents-panel > p { grid-column: 1 / -1; text-align: center; }
+  .mobile-recents-panel button { min-height: 110px; display: grid; place-items: center; align-content: center; gap: 10px; border: 1px solid rgba(207,239,247,.2); border-radius: 18px; color: #e4f8ff; background: rgba(255,255,255,.07); }
+  .mobile-recents-panel button .desktop-icon-image { width: 48px; height: 48px; }
+  .mobile-recents-panel button:active { background: rgba(123,207,232,.22); }
   .desktop-surface::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: linear-gradient(180deg, rgba(0, 20, 34, .2), rgba(0, 16, 29, .38) 72%, rgba(0, 10, 20, .74)); }
   .mobile-status-bar { position: absolute; z-index: 4; top: 0; left: 0; right: 0; height: 34px; padding: 8px 17px 0; display: flex; justify-content: space-between; align-items: center; color: rgba(240,250,255,.92); font: 600 .7rem "Space Mono", monospace; text-shadow: 0 1px 5px #001; }
   .mobile-status-icons { display: flex; align-items: center; gap: 8px; font-size: .78rem; }
@@ -148,6 +155,8 @@ h2, h3, p { margin: 0; } h2 { font-size: 1.6rem; margin-top: 6px; } h3 { font-si
   .taskbar-modern .start-button, .taskbar-modern .taskbar-search, .taskbar-modern .system-tray-modern { display: none; }
   .taskbar-modern .taskbar-apps { display: flex; position: absolute; left: 12px; right: 12px; bottom: 48px; max-width: none; width: auto; justify-content: space-evenly; gap: 6px; padding: 8px 18px; border: 1px solid rgba(207,239,247,.2); border-radius: 18px; background: rgba(0, 32, 54, .94); box-shadow: 0 12px 35px rgba(0,0,0,.35); }
   .taskbar-modern.mobile-recents-open .taskbar-apps { display: flex; }
+  .taskbar-modern.mobile-recents-open::before { display: none; }
+  .taskbar-modern.mobile-recents-open .taskbar-apps { display: none; }
   .mobile-nav { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); display: flex; align-items: center; justify-content: space-around; width: min(230px, 72vw); height: 42px; padding: 0 8px; }
   .mobile-nav button { width: 48px; height: 40px; display: grid; place-items: center; border: 0; border-radius: 12px; color: #d6f3fc; background: transparent; }
   .mobile-nav button:active { background: rgba(123,207,232,.22); }
